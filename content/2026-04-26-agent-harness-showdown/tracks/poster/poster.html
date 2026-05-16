@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Harness 五大玩家深度对比</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1440px;
+    background: #0a0a0f;
+    color: #e8e8ed;
+    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Subtle grid background */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* Glow accent */
+  body::after {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .poster {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 48px 52px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    margin-bottom: 28px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 24px;
+    font-weight: 500;
+    color: #f87171;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── LAYER DIAGRAM ── */
+  .layers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .layer-row {
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: 12px 20px;
+    gap: 16px;
+  }
+
+  .layer-row.l3 { background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); }
+  .layer-row.l2 { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.25); }
+  .layer-row.l1 { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.25); }
+
+  .layer-label {
+    font-size: 15px;
+    font-weight: 700;
+    min-width: 105px;
+    flex-shrink: 0;
+  }
+  .l3 .layer-label { color: #818cf8; }
+  .l2 .layer-label { color: #4ade80; }
+  .l1 .layer-label { color: #fbbf24; }
+
+  .layer-players {
+    font-size: 16px;
+    font-weight: 500;
+    color: #d1d5db;
+    line-height: 1.4;
+  }
+
+  .layer-players .highlight {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ── MATRIX ── */
+  .matrix-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #a5b4fc;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .matrix {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 24px;
+    font-size: 14.5px;
+  }
+
+  .matrix th {
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
+    font-weight: 700;
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 2px solid rgba(99, 102, 241, 0.25);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  .matrix th:first-child {
+    text-align: left;
+    padding-left: 16px;
+    border-radius: 8px 0 0 0;
+  }
+
+  .matrix th:last-child {
+    border-radius: 0 8px 0 0;
+  }
+
+  .matrix td {
+    padding: 9px 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #d1d5db;
+    font-weight: 500;
+  }
+
+  .matrix td:first-child {
+    text-align: left;
+    padding-left: 16px;
+    color: #e2e8f0;
+    font-weight: 600;
+  }
+
+  .matrix tr:last-child td { border-bottom: none; }
+
+  .matrix tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
+
+  /* Memory row highlight */
+  .matrix tr.memory-row td {
+    background: rgba(248, 113, 113, 0.08);
+    border-top: 1px solid rgba(248, 113, 113, 0.2);
+    border-bottom: 1px solid rgba(248, 113, 113, 0.2);
+  }
+
+  .good { color: #4ade80; }
+  .warn { color: #fbbf24; }
+  .bad { color: #f87171; }
+  .great { color: #34d399; font-weight: 700; }
+
+  /* ── MEMORY CALLOUT ── */
+  .memory-callout {
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.08), rgba(248, 113, 113, 0.03));
+    border: 1px solid rgba(248, 113, 113, 0.25);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+
+  .memory-callout-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #f87171;
+    margin-bottom: 10px;
+  }
+
+  .memory-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+  }
+
+  .memory-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .lock-icon { font-size: 18px; }
+  .free-icon { font-size: 18px; }
+
+  /* ── QUOTE ── */
+  .quote-section {
+    margin-bottom: 20px;
+  }
+
+  .quote {
+    font-size: 15px;
+    color: #94a3b8;
+    font-style: italic;
+    line-height: 1.5;
+    padding: 12px 20px;
+    border-left: 3px solid rgba(99, 102, 241, 0.4);
+    margin-bottom: 8px;
+  }
+
+  .quote-author {
+    font-size: 13px;
+    color: #64748b;
+    padding-left: 23px;
+    font-weight: 500;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .cta {
+    margin-top: auto;
+    text-align: center;
+    padding: 20px 0 0;
+    border-top: 1px solid rgba(99, 102, 241, 0.15);
+  }
+
+  .cta-text {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.35;
+    background: linear-gradient(135deg, #f87171, #fb923c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cta-sub {
+    font-size: 15px;
+    color: #64748b;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  .watermark {
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    font-size: 12px;
+    color: #334155;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">Deep Dive &middot; 2026</div>
+    <div class="title">Agent Harness<br>五大玩家深度对比</div>
+    <div class="subtitle">99% 的人在比错东西</div>
+  </div>
+
+  <!-- LAYER DIAGRAM -->
+  <div class="layers">
+    <div class="layer-row l3">
+      <div class="layer-label">L3 Platform</div>
+      <div class="layer-players"><span class="highlight">AgentCore</span> &middot; <span class="highlight">Claude Managed</span> &mdash; 你定义 agent, 我管一切</div>
+    </div>
+    <div class="layer-row l2">
+      <div class="layer-label">L2 Framework</div>
+      <div class="layer-players"><span class="highlight">Hermes</span> &middot; LangGraph &middot; CrewAI &mdash; 你管 infra, 我给编排</div>
+    </div>
+    <div class="layer-row l1">
+      <div class="layer-label">L1 Product</div>
+      <div class="layer-players"><span class="highlight">OpenClaw</span> &middot; <span class="highlight">SwarmAI</span> &middot; Claude Code &mdash; 开箱即用</div>
+    </div>
+  </div>
+
+  <!-- MATRIX -->
+  <div class="matrix-title">&#x1F50D; 六维对标矩阵</div>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>维度</th>
+        <th>AgentCore</th>
+        <th>Claude Managed</th>
+        <th>Hermes</th>
+        <th>OpenClaw</th>
+        <th>SwarmAI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>自进化</td>
+        <td class="bad">&mdash;</td>
+        <td class="bad">&mdash;</td>
+        <td class="great">GEPA (ICLR)</td>
+        <td class="bad">&mdash;</td>
+        <td class="good">4-phase</td>
+      </tr>
+      <tr class="memory-row">
+        <td>Memory 所有权</td>
+        <td class="bad">云端锁定</td>
+        <td class="bad">云端锁定</td>
+        <td class="warn">本地 2.2K</td>
+        <td class="good">本地 vec</td>
+        <td class="great">本地 git</td>
+      </tr>
+      <tr>
+        <td>Context 管理</td>
+        <td class="warn">基础</td>
+        <td class="warn">基础</td>
+        <td class="warn">2 文件</td>
+        <td class="warn">配置</td>
+        <td class="great">11 文件 P0-P10</td>
+      </tr>
+      <tr>
+        <td>Skills 生态</td>
+        <td class="warn">N/A</td>
+        <td class="warn">N/A</td>
+        <td class="great">Marketplace</td>
+        <td class="good">54+</td>
+        <td class="good">61</td>
+      </tr>
+      <tr>
+        <td>多平台</td>
+        <td class="good">API</td>
+        <td class="good">API</td>
+        <td class="great">17 channels</td>
+        <td class="warn">Desktop</td>
+        <td class="warn">Desktop+Slack</td>
+      </tr>
+      <tr>
+        <td>企业安全</td>
+        <td class="great">VPC+X-Ray</td>
+        <td class="good">Sandbox</td>
+        <td class="good">6 后端隔离</td>
+        <td class="good">OS sandbox</td>
+        <td class="good">3-tier+Guard</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- MEMORY CALLOUT -->
+  <div class="memory-callout">
+    <div class="memory-callout-title">&#x1F6A8; Memory: 真正的战场</div>
+    <div class="memory-grid">
+      <div class="memory-item"><span class="lock-icon">&#x1F512;</span> <span class="bad">AgentCore &mdash; 无法导出</span></div>
+      <div class="memory-item"><span class="lock-icon">&#x1F512;</span> <span class="bad">Claude Managed &mdash; 无法导出</span></div>
+      <div class="memory-item"><span class="free-icon">&#x1F513;</span> <span class="warn">Hermes &mdash; 本地但 2.2K 上限</span></div>
+      <div class="memory-item"><span class="free-icon">&#x1F513;</span> <span class="good">OpenClaw &mdash; 本地 vector</span></div>
+      <div class="memory-item"><span class="free-icon">&#x1F513;</span> <span class="great">SwarmAI &mdash; 本地 git, 完全可迁</span></div>
+    </div>
+  </div>
+
+  <!-- QUOTES -->
+  <div class="quote-section">
+    <div class="quote">"Harness is plumbing, moat is proprietary data."</div>
+    <div class="quote-author">&mdash; Jo&atilde;o Moura, CrewAI &#x521B;&#x59CB;&#x4EBA; (2026-04-14)</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-text">&#x9009;&#x6846;&#x67B6;&#x524D;&#x5148;&#x95EE;&#xFF1A;<br>&#x6211;&#x7684;&#x8BB0;&#x5FC6;&#x5B58;&#x5728;&#x54EA;&#xFF1F;&#x6211;&#x80FD;&#x5E26;&#x8D70;&#x5417;&#xFF1F;</div>
+    <div class="cta-sub">&#x6A21;&#x578B;&#x4F1A;&#x8FED;&#x4EE3;&#xFF0C;&#x6846;&#x67B6;&#x4F1A;&#x6D17;&#x724C;&#xFF0C;&#x53EA;&#x6709;&#x8BB0;&#x5FC6;&#x662F;&#x771F;&#x6B63;&#x7684;&#x590D;&#x5229;</div>
+  </div>
+
+  <div class="watermark">Swarm Intelligence &middot; 2026-04</div>
+</div>
+</body>
+</html>

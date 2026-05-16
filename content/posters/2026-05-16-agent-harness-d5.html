@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- Direction: D5 Morandi — Agent Harness: 当人来培养你的 Agent (full content from D2) -->
+<style>
+:root {
+  --bg-deep: #F2EDE8;
+  --bg-elevated: #FFFFFF;
+  --bg-surface: rgba(180,160,140,0.05);
+  --border: rgba(180,160,140,0.12);
+  --accent: #B08D6B;
+  --accent-dim: rgba(176,141,107,0.10);
+  --accent-secondary: #7B9E89;
+  --text-primary: #3D3530;
+  --text-secondary: rgba(61,53,48,0.65);
+  --text-muted: rgba(61,53,48,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;background:var(--bg-deep);font-family:"Noto Sans SC","PingFang SC",sans-serif;color:var(--text-primary);-webkit-font-smoothing:antialiased}
+.s{padding:96px 80px;text-align:center}
+.hero{padding:120px 80px;text-align:center}
+.h1{font-size:52px;font-weight:500;line-height:1.3;max-width:800px;margin:0 auto}
+.h2{font-size:32px;font-weight:500;line-height:1.4;max-width:700px;margin:0 auto}
+.body{font-size:20px;line-height:2.0;color:var(--text-secondary);max-width:700px;margin:0 auto;text-align:center}
+.eye{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-family:"Inter",monospace;text-align:center}
+.pill{display:inline-block;background:var(--accent-dim);color:var(--accent);padding:6px 18px;border-radius:999px;font-size:13px;font-weight:600;margin:4px 5px}
+.pill-g{background:rgba(123,158,137,0.12);color:var(--accent-secondary)}
+.card{background:var(--bg-elevated);border-radius:24px;padding:48px;box-shadow:0 12px 40px -12px rgba(61,53,48,0.06);max-width:920px;margin:0 auto;text-align:center}
+.g1{background:linear-gradient(160deg,#E8DDD4,#F5EDE5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g2{background:linear-gradient(160deg,#DDE8D4,#EDF5E5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g3{background:linear-gradient(160deg,#D4DDE8,#E5EDF5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g4{background:linear-gradient(160deg,#E8D4DD,#F5E5ED);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g5{background:linear-gradient(160deg,#E8E4D4,#F5F1E5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.sep{height:1px;width:120px;margin:0 auto;background:var(--border)}
+.quote{font-size:26px;font-weight:500;line-height:1.5;max-width:700px;margin:0 auto;font-style:italic}
+.sx-insight{font-size:16px;color:var(--accent);margin-top:16px;font-weight:500;padding-left:20px;border-left:3px solid var(--accent);max-width:700px;margin-left:auto;margin-right:auto;text-align:left;line-height:2.0}
+.sx-body{font-size:18px;color:var(--text-secondary);line-height:2.0;max-width:700px;margin:0 auto;text-align:center}
+.prin-card{background:var(--bg-elevated);border-radius:24px;padding:48px;box-shadow:0 12px 40px -12px rgba(61,53,48,0.06);max-width:860px;margin:24px auto 0;text-align:center}
+.footer{padding:72px 80px;text-align:center;background:linear-gradient(180deg,var(--bg-deep),#EBE6E0)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eye">DESIGN PHILOSOPHY</div>
+  <h1 class="h1">Agent Harness</h1>
+  <p style="font-size:28px;font-weight:500;color:var(--text-secondary);margin-top:12px;text-align:center">— 当人来培养你的 Agent</p>
+  <p style="font-size:18px;color:var(--text-muted);margin-top:24px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.8">一个 AI 要有连续性，需要满足什么设计条件？<br>这不是产品介绍 — 是六个设计命题。</p>
+</section>
+
+<!-- QUOTE -->
+<section class="s" style="padding:72px 80px">
+  <div class="sep" style="margin-bottom:36px"></div>
+  <p class="quote">"培养不是手把手教。<br>是设定方向后，系统自己围绕这个方向<span style="color:var(--accent)">生长</span>。"</p>
+  <p style="font-size:15px;color:var(--text-muted);margin-top:16px;text-align:center">人负责：Direction · Judgment · Taste<br>系统负责：其余一切连续性</p>
+</section>
+
+<!-- FRAMING -->
+<section class="s" style="padding-top:48px">
+  <div class="card">
+    <div class="eye">THE QUESTION</div>
+    <h2 class="h2" style="font-size:26px;margin-bottom:16px">一个 AI 用了半年还和第一天一样。<br>问题出在哪？</h2>
+    <p class="body" style="font-size:18px">不是模型不行。是模型上面那一层没有设计。<br>没有东西负责"记住" · 没有东西负责"进化" · 没有东西负责"自查"。</p>
+    <p style="font-size:20px;font-weight:600;margin-top:20px;color:var(--accent);text-align:center">这一层叫 Harness — 它的设计哲学是六个 Self。</p>
+  </div>
+</section>
+
+<!-- SELF-CONTEXT -->
+<section class="s">
+  <div class="eye">SELF-CONTEXT</div>
+  <h2 class="h2" style="margin-bottom:36px">Context 的设计问题不是"放多少"<br>是"谁维护什么"</h2>
+
+  <div class="g1">
+    <div class="sx-body">
+      一个 CLAUDE.md 堆所有东西 — 简单，但三个月后没人知道哪些 rule 还对，哪些已经过时。因为没人负责。<br><br>
+      Separation of concerns 不是文件数量问题 — 是 <span style="font-weight:600;color:var(--text-primary)">ownership 问题</span>：
+    </div>
+    <div class="sx-insight" style="margin-top:20px">
+      System 文件：每次启动覆写。保证最新。人编辑了也会丢 — 因为正确性由代码负责。<br>
+      User 文件：仅首次拷贝。尊重偏好。系统不碰你的选择。<br>
+      Agent 文件：AI exclusive。只有 AI 知道什么跨 session 有用。人通过请求指导，不直接编辑。
+    </div>
+    <p style="font-size:15px;color:var(--text-muted);text-align:center;margin-top:20px">让每方维护自己最擅长维护的东西。这就是"活的 context"和"过期文档"的区别。</p>
+  </div>
+</section>
+
+<!-- SELF-MEMORY -->
+<section class="s">
+  <div class="eye">SELF-MEMORY</div>
+  <h2 class="h2" style="margin-bottom:36px">记忆不是存储。是逐级提纯。</h2>
+
+  <div class="g2">
+    <div class="sx-body">
+      有趣的设计问题不是"存在哪" — 是 <span style="font-weight:600;color:var(--text-primary)">什么条件下一条观察有资格升级为规则</span>。<br><br>
+      四层，每层不同的 TTL、不同的消费者、不同的质量门：
+    </div>
+    <div class="sx-insight" style="margin-top:20px">
+      Raw（30 天自动消失）→ Curated（agent 判断什么值得留）→ Structured（研究级）→ Authoritative（项目判断基础）
+    </div>
+    <div class="sx-body" style="margin-top:24px">
+      <span style="font-weight:600;color:var(--text-primary)">Memory Sovereignty</span> 是这个设计的战略延伸 — 所有 AI provider 都在做 memory as platform feature。用它意味着 schema、lifecycle、pruning 的控制权交出去了。护城河不能建在别人的地基上。
+    </div>
+  </div>
+</section>
+
+<!-- SELF-EVOLUTION -->
+<section class="s">
+  <div class="eye">SELF-EVOLUTION</div>
+  <h2 class="h2" style="margin-bottom:36px">进化是工程，不是训练。</h2>
+
+  <div class="g3">
+    <div class="sx-body">
+      "AI 学会了不做 X" — 这是训练。行为层面的，脆弱的，context 丢了就忘。<br><br>
+      "做 X 的代码路径被结构性消除了" — 这是工程。架构层面的，永久的。
+    </div>
+    <div class="sx-insight" style="margin-top:20px">
+      Correction → Root Cause Analysis → Structural Fix → 整个 class of bugs 消除<br>
+      重复出现的 correction → 自动提升为 STEERING rule → 行为永久改变
+    </div>
+    <div class="sx-body" style="margin-top:24px">
+      关键 distinction：不是"记住不要做 X"。是"做 X 的条件不再存在"。<br>
+      前者依赖记忆（可丢失）。后者依赖结构（不可逆）。
+    </div>
+  </div>
+</section>
+
+<!-- SELF-FEEDBACK -->
+<section class="s">
+  <div class="eye">SELF-FEEDBACK</div>
+  <h2 class="h2" style="margin-bottom:36px">反馈不该依赖人说"去总结一下"</h2>
+
+  <div class="g4">
+    <div class="sx-body">
+      每个 session 有准备阶段和反思阶段 — 对称的。<br><br>
+      <span style="font-weight:600;color:var(--text-primary)">Pre-session:</span> 加载 context → 检查 health → 准备 briefing → 识别项目<br>
+      <span style="font-weight:600;color:var(--text-primary)">Post-session:</span> 提取关键信息 → 提案知识更新 → 更新 evolution → 刷新 index
+    </div>
+    <div class="sx-insight" style="margin-top:20px">
+      Agent 永远不"冷启动"，永远不"空手离开"。Hooks 创造时间对称性。
+    </div>
+    <div class="sx-body" style="margin-top:24px">
+      类比：你不需要"决定"心跳和呼吸。<br>
+      Self-feedback loop 是 harness 的自主神经系统 — 持续运转，用户无感。
+    </div>
+  </div>
+</section>
+
+<!-- SELF-HEALING -->
+<section class="s">
+  <div class="eye">SELF-HEALING</div>
+  <h2 class="h2" style="margin-bottom:36px">Health 不是 dashboard — 是 trust modifier</h2>
+
+  <div class="g5">
+    <div class="sx-body">
+      大多数系统的"健康检查"是给人看的报表。看完需要人决定怎么修。<br><br>
+      不同的设计：health score 直接改变 AI 行为。
+    </div>
+    <div class="sx-insight" style="margin-top:20px">
+      分数低 → AI 自动降低自主度，问更多问题，标注不确定性<br>
+      分数高 → AI 自主行动，不打扰<br>
+      不是人告诉 AI "你可以信任这个" — 是系统自己 earn trust
+    </div>
+    <div class="sx-body" style="margin-top:24px">
+      退化不等坏了再修 — 持续监控、持续自修复。<br>
+      Stale 自动标记。矛盾自动浮出。健康的 section 才有资格被依赖。
+    </div>
+  </div>
+</section>
+
+<!-- SELF-MONITORING -->
+<section class="s">
+  <div class="eye">SELF-MONITORING</div>
+  <h2 class="h2" style="margin-bottom:36px">交付前自己当第一个 reviewer</h2>
+
+  <div class="g1">
+    <div class="sx-body">
+      "希望用户发现错误" — 这是被动的，是把质量责任推给了消费者。<br><br>
+      Self-monitoring 的设计原则：<span style="font-weight:600;color:var(--text-primary)">agent 审查自己的输出，在人看到之前</span>。
+    </div>
+    <div class="sx-insight" style="margin-top:20px">
+      Pre-implementation checkpoint: 问题、场景、最简方案、可能断点 — 先想后写<br>
+      Post-task scan: 换视角重读自己的 diff<br>
+      Adversarial review: spawn 独立 context 的 sub-agent 审查 — 消除 builder bias
+    </div>
+    <div class="sx-body" style="margin-top:24px">
+      同一个人做 builder 和 reviewer 有结构性盲区。<br>
+      Self-monitoring 不是"再检查一遍" — 是用不同 context 看同一个交付物。
+    </div>
+  </div>
+</section>
+
+<!-- META-PRINCIPLE -->
+<section class="s" style="padding-top:48px">
+  <div class="prin-card">
+    <div class="eye">META-PRINCIPLE</div>
+    <h2 class="h2" style="font-size:28px;margin-bottom:20px">Prevention > Recovery</h2>
+    <p style="font-size:18px;color:var(--text-secondary);line-height:2.0;max-width:600px;margin:0 auto">
+      贯穿所有 Self-X 的底层原则：<br><br>
+      如果需要 watchdog，设计已经失败了。<br>
+      如果需要"记住不要做 X"，说明 X 还是可能的。<br>
+      如果需要人来修，说明系统不够自洽。<br><br>
+      <span style="color:var(--accent);font-weight:600">让正确行为成为唯一可能的行为。</span>
+    </p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="s">
+  <div class="sep" style="margin-bottom:36px"></div>
+  <p class="quote" style="font-size:24px">"AI 之间的差距不是模型。<br>是模型上面那一层<span style="color:var(--accent)">设计</span>。"</p>
+  <p style="font-size:17px;color:var(--text-secondary);margin-top:24px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;line-height:2.0">
+    同一个 foundation model。<br>
+    一个没有连续性 — 每次从零。<br>
+    一个有六个 Self — 记住、进化、自查、自愈。<br><br>
+    Harness 的本质不是框架，不是 wrapper。<br>
+    是一组关于持续性的设计决策。
+  </p>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  <div style="font-size:40px;margin-bottom:12px">🐝</div>
+  <div style="font-size:34px;font-weight:600;margin-bottom:6px">SwarmAI</div>
+  <div style="font-size:19px;font-weight:500;color:var(--accent);margin-bottom:28px;font-family:'Manrope','Inter',sans-serif">Human directs. AI delivers.</div>
+  <img src="/Users/gawan/Desktop/SwarmAI-Workspace/swarmai/backend/skills/s_pollinate/brand/assets/logo/qr-github-dark-on-light.png" width="100" height="100" style="border-radius:12px;display:block;margin:0 auto"/>
+  <p style="font-size:13px;color:var(--text-muted);margin-top:12px;font-family:'SF Mono',monospace">github.com/xg-gh-25/SwarmAI</p>
+</section>
+
+<div style="padding:12px 36px;text-align:right">
+  <span style="font-size:11px;font-weight:500;color:var(--text-muted);font-family:'Manrope','Inter',sans-serif;letter-spacing:0.5px;opacity:0.6">🐝 Made with SwarmAI Pollinate</span>
+</div>
+</body>
+</html>

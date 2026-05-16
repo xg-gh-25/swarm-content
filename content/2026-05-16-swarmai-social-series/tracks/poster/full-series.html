@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>SwarmAI — Human directs. AI delivers.</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #D4A853;
+  --gold-dim: rgba(212, 168, 83, 0.15);
+  --gold-glow: rgba(212, 168, 83, 0.06);
+  --surface: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.06);
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --bg-deep: #0A0A0B;
+  --bg-elevated: #111113;
+  --font-zh: 'PingFang SC', -apple-system, 'Noto Sans SC', sans-serif;
+  --font-en: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', monospace;
+  /* Vertical rhythm: 24px base */
+  --space-xs: 12px;   /* 0.5x */
+  --space-sm: 24px;   /* 1x */
+  --space-md: 48px;   /* 2x */
+  --space-lg: 72px;   /* 3x */
+  --space-xl: 48px;   /* section padding */
+  --space-2xl: 56px; /* hero padding */
+}
+
+body {
+  width: 1080px;
+  font-family: var(--font-zh);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SHARED: All sections centered, text blocks constrained
+   ════════════════════════════════════════════════════════════ */
+
+.section {
+  padding: var(--space-xl) 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+.headline {
+  font-size: 52px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+  max-width: 800px;
+  margin-bottom: var(--space-md);
+}
+
+.body {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 2.0;
+  color: var(--text-secondary);
+  max-width: 700px;
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+
+.body .hl {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+}
+
+/* ════════════════════════════════════════════════════════════
+   HERO HEADER — 5x padding, centered tagline + belief
+   ════════════════════════════════════════════════════════════ */
+
+.hero {
+  height: auto;
+  padding: var(--space-2xl) 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.07) 0%, transparent 65%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hero-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 168, 83, 0.07);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.hero-ring-1 { width: 300px; height: 300px; }
+.hero-ring-2 { width: 480px; height: 480px; }
+.hero-ring-3 { width: 660px; height: 660px; border-color: rgba(212, 168, 83, 0.04); }
+
+.hero-tagline {
+  font-family: var(--font-en);
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-sm);
+}
+
+.hero-belief {
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ════════════════════════════════════════════════════════════
+   DIVIDERS — consistent 120px total (48px + element + 48px)
+   ════════════════════════════════════════════════════════════ */
+
+.divider {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, rgba(212, 168, 83, 0.25), transparent);
+}
+
+.divider-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.25;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CARD VARIANT: DRAMATIC — gold left-border accent on body
+   ════════════════════════════════════════════════════════════ */
+
+.card-dramatic .body {
+  padding-left: var(--space-md);
+  border-left: 2px solid rgba(212, 168, 83, 0.25);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CARD VARIANT: VISUAL — abstract element above text
+   ════════════════════════════════════════════════════════════ */
+
+.card-visual .visual {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: var(--space-md);
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 168, 83, 0.12);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ring-sm { width: 80px; height: 80px; }
+.ring-md { width: 140px; height: 140px; }
+.ring-lg { width: 200px; height: 200px; }
+.ring-core {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CARD VARIANT: CONTAINED — bordered card with watermark
+   ════════════════════════════════════════════════════════════ */
+
+.card-contained-wrap {
+  margin: 0 60px;
+  padding: var(--space-lg) 64px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.card-contained-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212, 168, 83, 0.2), transparent);
+}
+.watermark {
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  font-family: var(--font-en);
+  font-size: 120px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.02);
+  line-height: 1;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CARD VARIANT: PULLQUOTE — highlighted quote block
+   ════════════════════════════════════════════════════════════ */
+
+.pullquote-box {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.05) 0%, transparent 80%);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 16px 16px 0;
+  text-align: left;
+  max-width: 700px;
+}
+.pullquote-box .hl {
+  font-size: 26px;
+  line-height: 1.8;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CARD VARIANT: FINALE — elevated background + geometric
+   ════════════════════════════════════════════════════════════ */
+
+.card-finale {
+  background: var(--bg-elevated);
+  position: relative;
+  overflow: hidden;
+}
+.card-finale::before {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.04) 0%, transparent 60%);
+}
+.geo-lines {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  width: 160px;
+  height: 160px;
+}
+.geo-line {
+  position: absolute;
+  background: rgba(212, 168, 83, 0.08);
+  height: 1px;
+  transform-origin: left center;
+  transform: rotate(45deg);
+}
+.geo-line-1 { width: 160px; top: 0; left: 0; }
+.geo-line-2 { width: 120px; top: 32px; left: 20px; }
+.geo-line-3 { width: 80px; top: 64px; left: 40px; }
+
+/* ════════════════════════════════════════════════════════════
+   TECH SECTION
+   ════════════════════════════════════════════════════════════ */
+
+.tech-section {
+  padding: var(--space-xl) 80px;
+}
+
+.tech-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: var(--space-md);
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tech-header-line { flex: 1; height: 1px; background: var(--border); }
+.tech-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  max-width: 920px;
+  margin: 0 auto;
+}
+.tech-card {
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.tech-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  opacity: 0.4;
+  border-radius: 3px 0 0 3px;
+}
+.tech-card-title {
+  font-family: var(--font-en);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: var(--space-xs);
+  letter-spacing: 0.5px;
+}
+.tech-card-desc {
+  font-size: 19px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.tech-card-full { grid-column: 1 / -1; }
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════════════ */
+
+.footer {
+  padding: var(--space-lg) 80px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+}
+
+.footer-brand { font-size: 32px; }
+.footer-tagline {
+  font-family: var(--font-en);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gold);
+}
+.footer-proof {
+  font-size: 20px;
+  color: var(--text-muted);
+  max-width: 500px;
+  line-height: 1.8;
+}
+.footer-qr {
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-top: var(--space-xs);
+}
+.footer-qr img { width: 100%; height: 100%; display: block; }
+.footer-url {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: rgba(212, 168, 83, 0.5);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero section">
+  <div class="hero-ring hero-ring-1"></div>
+  <div class="hero-ring hero-ring-2"></div>
+  <div class="hero-ring hero-ring-3"></div>
+  <div class="hero-tagline">Human directs. AI delivers.</div>
+  <div class="hero-belief">探 索 A I 的 边 界</div>
+</section>
+
+<!-- ═══ I: DRAMATIC ═══ -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="section card-dramatic">
+  <div class="eyebrow">Thesis I</div>
+  <div class="headline">能外包思考，不能外包理解。</div>
+  <div class="body">
+    AI 能穷举所有选项，<br>
+    但"这件事值不值得做"——<br>
+    这是在不完全信息下做决定的能力。<br>
+    <br>
+    模型处理确定性，人处理模糊性。<br>
+    <br>
+    判断力是用进废退的。<br>
+    <span class="hl">越依赖生成，越丧失判断。</span><br>
+    <span class="hl">越保持判断，越不可替代。</span><br>
+    <br>
+    所以 AI 真正该做的不是替人决策，<br>
+    是把领域知识养活——<br>
+    让判断有据可依，让经验不随人走。
+  </div>
+</section>
+
+<!-- ═══ II: VISUAL ═══ -->
+<div class="divider"><div class="divider-dot"></div></div>
+<section class="section card-visual">
+  <div class="visual">
+    <div class="ring ring-sm"></div>
+    <div class="ring ring-md"></div>
+    <div class="ring ring-lg"></div>
+    <div class="ring-core"></div>
+  </div>
+  <div class="eyebrow">Thesis II</div>
+  <div class="headline">没有记忆就没有理解。</div>
+  <div class="body">
+    一个没有记忆的 AI，每次都在猜你是谁。<br>
+    <br>
+    记忆不是存储，是连续性。<br>
+    有连续性才有理解，<br>
+    有理解才有信任，<br>
+    有信任才有深度协作。<br>
+    <br>
+    <span class="hl">没有上下文的聪明，是猜测。</span><br>
+    <span class="hl">有上下文的普通，是判断。</span><br>
+    <br>
+    越用越懂你，不是每次从零开始。<br>
+    这才是 compound 的含义。
+  </div>
+</section>
+
+<!-- ═══ III: CONTAINED ═══ -->
+<div class="divider"><div class="divider-line"></div></div>
+<div class="card-contained-wrap">
+  <div class="watermark">III</div>
+  <div class="eyebrow">Thesis III</div>
+  <div class="headline">进化不是更新版本。</div>
+  <div class="body">
+    犯一次错是经验。<br>
+    同样的错犯两次是系统问题。<br>
+    <br>
+    好的工程文化不是口号，<br>
+    是"这个错误在结构上不可能再发生"。<br>
+    <br>
+    当判断被编码进系统，<br>
+    系统就有了品味——<br>
+    知道什么该拒绝，什么不能妥协。<br>
+    <br>
+    <span class="hl">犯过的错永远不再犯。</span><br>
+    <span class="hl">不是靠人记住，是靠结构保证。</span>
+  </div>
+</div>
+
+<!-- ═══ IV: CENTERED MANIFESTO ═══ -->
+<div class="divider"><div class="divider-dot"></div></div>
+<section class="section">
+  <div class="eyebrow">Thesis IV</div>
+  <div class="headline">协作的代价是信息不对称。</div>
+  <div class="body">
+    团队协作的真正成本不是人力，是对齐。<br>
+    <br>
+    开会是对齐。文档是对齐。<br>
+    Onboarding 是对齐。Code review 是对齐。<br>
+    <br>
+    本质上，所有协作成本都是信息不对称的代价。<br>
+    <br>
+    当一个系统天然拥有完整上下文，<br>
+    一句话就能走到交付——<br>
+    <span class="hl">不是省了执行的时间，</span><br>
+    <span class="hl">是省了"让别人理解你要什么"的时间。</span>
+  </div>
+</section>
+
+<!-- ═══ V: PULLQUOTE ═══ -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="section">
+  <div class="eyebrow">Thesis V</div>
+  <div class="headline">知识不过期，工具会。</div>
+  <div class="body">
+    今天的最优实践，明天就是技术债。<br>
+    追工具的人永远在重新开始。<br>
+    <br>
+    但有一种东西不过期：<br>
+    对领域的理解，对决策的积累，<br>
+    对"什么情况下该怎么做"的沉淀。<br>
+    <br>
+    AI 的根本瓶颈不是智力，是基础设施。<br>
+    不是不够聪明，是没有上下文。<br>
+    <br>
+    把时间花在不会归零的事情上。
+  </div>
+  <div class="pullquote-box">
+    <span class="hl">工具是手段，知识是资产。</span><br>
+    <span class="hl">手段可替换，资产在增值。</span>
+  </div>
+</section>
+
+<!-- ═══ VI: FINALE ═══ -->
+<div class="divider"><div class="divider-dot"></div></div>
+<section class="section card-finale">
+  <div class="geo-lines">
+    <div class="geo-line geo-line-1"></div>
+    <div class="geo-line geo-line-2"></div>
+    <div class="geo-line geo-line-3"></div>
+  </div>
+  <div class="eyebrow">Thesis VI</div>
+  <div class="headline">认知底座在变。</div>
+  <div class="body">
+    每次技术浪潮都有人说"这次不一样"。<br>
+    <br>
+    互联网改了信息的分发方式。<br>
+    移动改了触达的渠道。<br>
+    但认知方式没变——还是人在想，机器在算。<br>
+    <br>
+    <span class="hl">这次变的是认知本身。</span><br>
+    <br>
+    当一个系统能自我纠错、自我收敛，<br>
+    每一轮输出都比上一轮更接近正确——<br>
+    错误率不是被修复的，是被结构性压缩的。<br>
+    <br>
+    不是做得更快了，<br>
+    是能做以前做不了的事了。
+  </div>
+</section>
+
+<!-- ═══ TECH ═══ -->
+<div class="divider"><div class="divider-line"></div></div>
+<section class="tech-section">
+  <div class="tech-header">
+    <div class="tech-header-line"></div>
+    <div class="tech-label">Core Technology</div>
+    <div class="tech-header-line"></div>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-card-title">DDD</div>
+      <div class="tech-card-desc">Domain Expertise as Infrastructure<br>领域知识从工作中自己生长</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-title">Coding as Black Box</div>
+      <div class="tech-card-desc">One sentence → push-ready<br>一句需求到交付</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-title">Memory Compounds</div>
+      <div class="tech-card-desc">越用越懂你<br>不是每次从零开始</div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-title">Self-Evolution</div>
+      <div class="tech-card-desc">犯过的错<br>在结构上不可能再犯</div>
+    </div>
+    <div class="tech-card tech-card-full">
+      <div class="tech-card-title">Quality Convergence</div>
+      <div class="tech-card-desc">每一轮输出比上一轮更接近正确 — 错误率被结构性压缩，不是被人工修复</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-brand">🐝 SwarmAI</div>
+  <div class="footer-tagline">Human directs. AI delivers.</div>
+  <div class="footer-proof">
+    探索 AI 的边界<br>
+    一个人 + AI 能顶一个团队
+  </div>
+  <div class="footer-qr">
+    <img src="qr-swarmai.png" alt="SwarmAI GitHub">
+  </div>
+  <div class="footer-url">github.com/xg-gh-25/SwarmAI</div>
+</footer>
+
+</body>
+</html>

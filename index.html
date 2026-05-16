@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwarmAI Content Gallery</title>
+    <meta name="description" content="Auto-published content from SwarmAI's Pollinate engine. Posters, articles, and media packages.">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #14141f;
+            --border: #2a2a3a;
+            --text: #e4e4ef;
+            --muted: #8888aa;
+            --accent: #c8a832;
+            --accent-dim: #8a7420;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        header h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+        }
+        header p {
+            color: var(--muted);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: var(--accent-dim); }
+        .card-header { margin-bottom: 1rem; }
+        .card-header .date {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .card-header h2 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        .preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .file-link {
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            background: rgba(200, 168, 50, 0.1);
+            border-radius: 4px;
+            border: 1px solid var(--accent-dim);
+        }
+        .file-link:hover {
+            background: rgba(200, 168, 50, 0.2);
+        }
+        .meta {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+        footer {
+            text-align: center;
+            padding: 3rem 0 1rem;
+            color: var(--muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SwarmAI Content Gallery</h1>
+        <p>Auto-published by Pollinate — Message First, Format Follows</p>
+        <p style="margin-top: 0.25rem; font-size: 0.8rem;">9 collections • Updated 2026-05-17 03:03</p>
+    </header>
+    <div class="gallery">
+    <article class="card">
+      <div class="card-header">
+        <span class="date">posters</span>
+        <h2>posters</h2>
+      </div>
+      <img src="posters/2026-05-16-agent-harness-d2.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="posters/2026-05-16-agent-harness-d2.html" class="file-link">2026 05 16 agent harness d2</a>
+        <a href="posters/2026-05-16-agent-harness-d5.html" class="file-link">2026 05 16 agent harness d5</a>
+        <a href="posters/2026-05-16-compound-intel-article-d2.html" class="file-link">2026 05 16 compound intel article d2</a>
+        <a href="posters/2026-05-16-compound-intel-article-d5.html" class="file-link">2026 05 16 compound intel article d5</a>
+        <a href="posters/2026-05-16-compound-intel-d2.html" class="file-link">2026 05 16 compound intel d2</a>
+        <a href="posters/2026-05-16-compound-intel-d5.html" class="file-link">2026 05 16 compound intel d5</a>
+      </div>
+      <div class="meta">23 HTML, 23 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-05-17</span>
+        <h2>Ddd Cultivation</h2>
+      </div>
+      <img src="2026-05-17-ddd-cultivation/tracks/poster/ddd-cultivation-d4-neon.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-05-17-ddd-cultivation/tracks/poster/ddd-cultivation-d4-neon.html" class="file-link">ddd cultivation d4 neon</a>
+        <a href="2026-05-17-ddd-cultivation/tracks/poster/ddd-cultivation-d5-morandi.html" class="file-link">ddd cultivation d5 morandi</a>
+      </div>
+      <div class="meta">2 HTML, 2 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-05-16</span>
+        <h2>Swarmai Social Series</h2>
+      </div>
+      <img src="2026-05-16-swarmai-social-series/tracks/poster/02-memory.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-05-16-swarmai-social-series/tracks/poster/02-memory.html" class="file-link">02 memory</a>
+        <a href="2026-05-16-swarmai-social-series/tracks/poster/full-series.html" class="file-link">full series</a>
+      </div>
+      <div class="meta">2 HTML, 3 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-05-03</span>
+        <h2>Memory Is The Moat</h2>
+      </div>
+      <img src="2026-05-03-memory-is-the-moat/deliver/xiaohongshu/cover_3x4.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-05-03-memory-is-the-moat/tracks/poster/cover_3x4.html" class="file-link">cover 3x4</a>
+      </div>
+      <div class="meta">1 HTML, 2 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-04-29</span>
+        <h2>Swarm Hive Xiaohongshu</h2>
+      </div>
+      <img src="2026-04-29-swarm-hive-xiaohongshu/deliver/xiaohongshu/poster-cover.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-04-29-swarm-hive-xiaohongshu/tracks/narrative/cards.html" class="file-link">cards</a>
+        <a href="2026-04-29-swarm-hive-xiaohongshu/tracks/poster/poster-architecture.html" class="file-link">poster architecture</a>
+        <a href="2026-04-29-swarm-hive-xiaohongshu/tracks/poster/poster-cover.html" class="file-link">poster cover</a>
+      </div>
+      <div class="meta">3 HTML, 11 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-04-26</span>
+        <h2>Pollinate V2 Launch</h2>
+      </div>
+      <img src="2026-04-26-pollinate-v2-launch/deliver/bilibili/poster_16x9.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-04-26-pollinate-v2-launch/tracks/poster/poster_16x9.html" class="file-link">poster 16x9</a>
+        <a href="2026-04-26-pollinate-v2-launch/tracks/poster/poster_3x4.html" class="file-link">poster 3x4</a>
+      </div>
+      <div class="meta">2 HTML, 8 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-04-26</span>
+        <h2>Pollinate Poster</h2>
+      </div>
+      <img src="2026-04-26-pollinate-poster/github_qr.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-04-26-pollinate-poster/poster_16x9.html" class="file-link">poster 16x9</a>
+        <a href="2026-04-26-pollinate-poster/poster_3x4.html" class="file-link">poster 3x4</a>
+        <a href="2026-04-26-pollinate-poster/poster_3x4_v2.html" class="file-link">poster 3x4 v2</a>
+      </div>
+      <div class="meta">3 HTML, 5 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-04-26</span>
+        <h2>Aidlc One Sentence To Pr</h2>
+      </div>
+      <img src="2026-04-26-aidlc-one-sentence-to-pr/video/thumbnail_16x9.png" class="preview" loading="lazy" />
+      <div class="links">
+      </div>
+      <div class="meta">0 HTML, 3 PNG</div>
+    </article>
+    <article class="card">
+      <div class="card-header">
+        <span class="date">2026-04-26</span>
+        <h2>Agent Harness Showdown</h2>
+      </div>
+      <img src="2026-04-26-agent-harness-showdown/deliver/xiaohongshu/cover_3x4.png" class="preview" loading="lazy" />
+      <div class="links">
+        <a href="2026-04-26-agent-harness-showdown/tracks/narrative/cards.html" class="file-link">cards</a>
+        <a href="2026-04-26-agent-harness-showdown/tracks/poster/poster-matrix.html" class="file-link">poster matrix</a>
+        <a href="2026-04-26-agent-harness-showdown/tracks/poster/poster-memory.html" class="file-link">poster memory</a>
+        <a href="2026-04-26-agent-harness-showdown/tracks/poster/poster.html" class="file-link">poster</a>
+      </div>
+      <div class="meta">4 HTML, 14 PNG</div>
+    </article>
+    </div>
+    <footer>
+        <p>Generated by <a href="https://github.com/xg-gh-25/SwarmAI">SwarmAI</a> Pollinate Engine</p>
+    </footer>
+</body>
+</html>

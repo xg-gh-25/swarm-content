@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- Direction: D3 Ink (水墨东方) — DDD Cultivation Engine -->
+<style>
+:root {
+  --bg-deep: #F5F0E8;
+  --bg-elevated: #FFFDF7;
+  --bg-surface: rgba(139,69,19,0.03);
+  --border: rgba(0,0,0,0.08);
+  --accent: #C0392B;
+  --accent-dim: rgba(192,57,43,0.08);
+  --text-primary: #1A1410;
+  --text-secondary: rgba(26,20,16,0.7);
+  --text-muted: rgba(26,20,16,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;background:var(--bg-deep);font-family:"PingFang SC","Noto Sans SC",sans-serif;color:var(--text-primary);-webkit-font-smoothing:antialiased}
+.s{padding:96px 80px;text-align:center}
+.hero{padding:144px 80px;text-align:center;border-bottom:1px solid var(--border)}
+.h1{font-size:48px;font-weight:600;line-height:1.4;max-width:800px;margin:0 auto;font-family:"STSongti-SC","Songti SC","PingFang SC",serif}
+.h2{font-size:28px;font-weight:600;line-height:1.4;max-width:700px;margin:0 auto;font-family:"STSongti-SC","Songti SC","PingFang SC",serif}
+.body{font-size:18px;line-height:2.2;color:var(--text-secondary);max-width:700px;margin:0 auto;text-align:center}
+.eye{font-size:11px;font-weight:600;letter-spacing:4px;color:var(--accent);margin-bottom:16px;font-family:"Inter","SF Mono",monospace;text-align:center}
+.pill{display:inline-block;background:var(--accent-dim);color:var(--accent);padding:5px 16px;border-radius:2px;font-size:12px;font-weight:600;margin:3px 4px}
+.card{background:var(--bg-elevated);padding:48px 36px;border:1px solid var(--border);max-width:860px;margin:0 auto;text-align:center}
+.sep{height:120px;display:flex;align-items:center;justify-content:center}
+.sep::after{content:'';width:60px;height:1px;background:var(--accent);opacity:0.4}
+.quote{font-size:26px;font-weight:600;line-height:1.6;max-width:700px;margin:0 auto;text-align:center;font-family:"STSongti-SC","Songti SC",serif}
+/* Inner frame (请柬式) */
+.frame{border:1px solid var(--border);padding:48px;max-width:920px;margin:0 auto}
+.frame-inner{border:0.5px solid rgba(0,0,0,0.05);padding:36px}
+/* Architecture */
+.arch-stack{max-width:780px;margin:24px auto 0;text-align:center}
+.arch-layer{border:1px solid var(--border);padding:20px 24px;margin:8px auto;text-align:center;background:var(--bg-elevated)}
+.arch-layer-accent{border-color:var(--accent);border-width:1.5px}
+.arch-label{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:3px;font-family:"Inter",monospace;margin-bottom:4px}
+.arch-title{font-size:18px;font-weight:600;font-family:"STSongti-SC",serif}
+.arch-desc{font-size:14px;color:var(--text-secondary);margin-top:4px;line-height:1.8}
+.arch-arrow{text-align:center;color:var(--text-muted);font-size:14px;margin:4px 0}
+/* Doc grid */
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:780px;margin:24px auto 0}
+.doc-card{background:var(--bg-elevated);border:1px solid var(--border);padding:24px 20px;text-align:center}
+.doc-card-accent{border-left:3px solid var(--accent)}
+.doc-name{font-size:13px;font-weight:600;color:var(--accent);font-family:"SF Mono",monospace;margin-bottom:6px}
+.doc-axis{font-size:20px;font-weight:600;margin-bottom:4px;font-family:"STSongti-SC",serif}
+.doc-q{font-size:13px;color:var(--text-secondary);line-height:1.7}
+/* Flywheel */
+.flywheel{max-width:740px;margin:24px auto 0;border:1px solid var(--border);padding:36px 24px;background:var(--bg-elevated);text-align:center}
+.fly-step{display:inline-block;border:1px solid var(--border);padding:10px 16px;font-size:13px;font-weight:500;margin:4px;text-align:center;background:var(--bg-deep)}
+.fly-step-accent{border-color:var(--accent);color:var(--accent)}
+.fly-arrow{display:inline-block;color:var(--accent);font-size:14px;margin:4px 2px;vertical-align:middle}
+/* Feed channels */
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:740px;margin:24px auto 0}
+.ch-item{background:var(--bg-elevated);border:1px solid var(--border);padding:14px 16px;text-align:center}
+.ch-num{font-size:12px;font-weight:600;color:var(--accent);font-family:"SF Mono",monospace}
+.ch-name{font-size:14px;font-weight:500;margin-top:4px}
+.ch-target{font-size:11px;color:var(--text-muted);margin-top:2px}
+/* Decisions */
+.d-item{max-width:780px;margin:12px auto;padding:20px 28px;border-left:2px solid var(--accent);text-align:left;background:var(--bg-elevated)}
+.d-label{font-size:11px;font-weight:600;color:var(--accent);font-family:"Inter",monospace;letter-spacing:1px}
+.d-title{font-size:17px;font-weight:600;margin:4px 0 2px;font-family:"STSongti-SC",serif}
+.d-desc{font-size:14px;color:var(--text-secondary);line-height:1.8}
+/* Comparison */
+.cmp-table{width:100%;max-width:780px;margin:24px auto 0;border-collapse:collapse;font-size:13px;text-align:center}
+.cmp-table th{background:var(--bg-elevated);color:var(--accent);padding:14px 8px;border:1px solid var(--border);font-weight:600;font-size:11px;letter-spacing:1px}
+.cmp-table td{padding:12px 8px;border:1px solid var(--border);color:var(--text-secondary);line-height:1.5}
+.cmp-table td:first-child{color:var(--text-primary);font-weight:500;text-align:left;padding-left:12px}
+.cmp-ours{background:var(--accent-dim) !important;color:var(--text-primary) !important;font-weight:600 !important}
+/* Data */
+.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:520px;margin:24px auto 0}
+.data-card{background:var(--bg-elevated);padding:24px;border:1px solid var(--border);text-align:center}
+.data-before{font-size:14px;color:var(--text-muted);text-decoration:line-through}
+.data-num{font-size:32px;font-weight:600;color:var(--accent);margin-top:4px;font-family:"STSongti-SC",serif}
+.data-label{font-size:11px;color:var(--text-muted);margin-top:6px}
+/* Footer */
+.footer{padding:96px 80px;text-align:center;border-top:1px solid var(--border)}
+/* Pyramid */
+.pyramid{max-width:700px;margin:24px auto 0}
+.pyr-level{background:var(--bg-elevated);border:1px solid var(--border);padding:12px 16px;margin:8px auto;text-align:center;font-size:14px}
+.pyr-4{max-width:380px;border-color:var(--accent);border-width:1.5px}
+.pyr-3{max-width:480px}
+.pyr-2{max-width:580px}
+.pyr-1{max-width:680px}
+/* Seal stamp */
+.seal{display:inline-block;border:2px solid var(--accent);padding:6px 12px;font-size:12px;font-weight:700;color:var(--accent);transform:rotate(-3deg);font-family:"STSongti-SC",serif;letter-spacing:2px}
+</style>
+</head>
+<body>
+
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="eye">DDD CULTIVATION ENGINE</div>
+  <h1 class="h1">领域专业知识<br>即基础设施</h1>
+  <p style="font-size:18px;color:var(--text-secondary);margin-top:16px;text-align:center;font-family:'STSongti-SC',serif">Domain Expertise as Infrastructure</p>
+  <div style="margin-top:24px">
+    <span class="pill">自生长</span>
+    <span class="pill">零维护</span>
+    <span class="pill">跨项目</span>
+    <span class="pill">健康评分</span>
+  </div>
+</section>
+
+<!-- 2. QUOTE -->
+<section class="s" style="padding:72px 80px">
+  <div class="sep"></div>
+  <p class="quote">"一个普通 AI 用百次<br>能力与初始<span style="color:var(--accent)">无异</span>"</p>
+  <p style="font-size:15px;color:var(--text-muted);margin-top:16px;text-align:center">此系统不然。百次之后所读之 DDD，已百倍于初。</p>
+</section>
+
+<!-- 3. PROBLEM -->
+<section class="s" style="padding-top:48px">
+  <div class="frame">
+    <div class="frame-inner">
+      <div class="eye">核心命题</div>
+      <h2 class="h2" style="font-size:26px;margin-bottom:16px">AI 非不智<br>乃不知尔之领域</h2>
+      <p class="body" style="font-size:16px">每次对话从零开始。不知命名规范、不知前月之坑、不知何处一触即溃。<br>技术无误，领域全错。</p>
+      <p style="font-size:18px;font-weight:600;margin-top:20px;color:var(--accent);text-align:center;font-family:'STSongti-SC',serif">缺者非智 — 乃上下文也</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ARCHITECTURE -->
+<section class="s">
+  <div class="eye">三层架构</div>
+  <h2 class="h2" style="margin-bottom:24px">知识非文档 — 乃三层基础设施</h2>
+
+  <div class="arch-stack">
+    <div class="arch-layer arch-layer-accent">
+      <div class="arch-label">第一层 · 界面</div>
+      <div class="arch-title">四文档 · 每项目</div>
+      <div class="arch-desc">PRODUCT · TECH · IMPROVEMENT · PROJECT</div>
+    </div>
+    <div class="arch-arrow">⇅</div>
+    <div class="arch-layer">
+      <div class="arch-label">第二层 · 智能</div>
+      <div class="arch-title">代码图谱 · 健康评分 · 成熟度</div>
+      <div class="arch-desc">检测腐化、量化信任、连接代码与文档</div>
+    </div>
+    <div class="arch-arrow">⇅</div>
+    <div class="arch-layer">
+      <div class="arch-label">第三层 · 编排</div>
+      <div class="arch-title">培育引擎 · 实体索引 · 八通道</div>
+      <div class="arch-desc">自动生长、跨项目路由、安全审批</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 4 DOCS -->
+<section class="s">
+  <div class="eye">四轴判断</div>
+  <h2 class="h2" style="margin-bottom:24px">四文档 = 自主决策之四柱</h2>
+
+  <div class="doc-grid">
+    <div class="doc-card doc-card-accent">
+      <div class="doc-name">PRODUCT.md</div>
+      <div class="doc-axis">当为否？</div>
+      <div class="doc-q">战略 · 优先级 · 非目标</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-name">TECH.md</div>
+      <div class="doc-axis">如何为？</div>
+      <div class="doc-q">架构 · 约定 · 约束</div>
+    </div>
+    <div class="doc-card doc-card-accent">
+      <div class="doc-name">IMPROVEMENT.md</div>
+      <div class="doc-axis">何曾败？</div>
+      <div class="doc-q">教训 · 反模式 · 前车之鉴</div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-name">PROJECT.md</div>
+      <div class="doc-axis">今何状？</div>
+      <div class="doc-q">状态 · 决策 · 谁主其事</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. FEEDS -->
+<section class="s">
+  <div class="eye">八通道</div>
+  <h2 class="h2" style="margin-bottom:12px">知识生于日常之功</h2>
+  <p class="body" style="font-size:15px;margin-bottom:24px">无额外人力。八通道捕获自然产生之信号。</p>
+
+  <div class="ch-grid">
+    <div class="ch-item"><div class="ch-num">壹</div><div class="ch-name">代码变更</div><div class="ch-target">→ TECH.md</div></div>
+    <div class="ch-item"><div class="ch-num">贰</div><div class="ch-name">外部学习</div><div class="ch-target">→ PRODUCT / TECH</div></div>
+    <div class="ch-item"><div class="ch-num">叁</div><div class="ch-name">Pipeline 复盘</div><div class="ch-target">→ IMPROVEMENT</div></div>
+    <div class="ch-item"><div class="ch-num">肆</div><div class="ch-name">行业信号</div><div class="ch-target">→ PRODUCT.md</div></div>
+    <div class="ch-item"><div class="ch-num">伍</div><div class="ch-name">对话决策</div><div class="ch-target">→ PROJECT.md</div></div>
+    <div class="ch-item"><div class="ch-num">陆</div><div class="ch-name">用户纠正</div><div class="ch-target">→ 最高优先级</div></div>
+    <div class="ch-item"><div class="ch-num">柒</div><div class="ch-name">代码智能</div><div class="ch-target">→ TECH.md</div></div>
+    <div class="ch-item"><div class="ch-num">捌</div><div class="ch-name">Pollinate 复盘</div><div class="ch-target">→ IMPROVEMENT</div></div>
+  </div>
+</section>
+
+<!-- 7. FLYWHEEL -->
+<section class="s" style="padding-top:48px">
+  <div class="eye">飞轮</div>
+  <h2 class="h2" style="margin-bottom:24px">越用越强 — 结构使然</h2>
+
+  <div class="flywheel">
+    <div style="margin-bottom:12px">
+      <span class="fly-step fly-step-accent">日常之功</span>
+      <span class="fly-arrow">→</span>
+      <span class="fly-step">八通道捕获</span>
+      <span class="fly-arrow">→</span>
+      <span class="fly-step">培育提案</span>
+    </div>
+    <div style="margin-bottom:12px">
+      <span class="fly-arrow">→</span>
+      <span class="fly-step">三十秒审批</span>
+      <span class="fly-arrow">→</span>
+      <span class="fly-step fly-step-accent">DDD 渐丰</span>
+      <span class="fly-arrow">→</span>
+      <span class="fly-step">下次更智</span>
+    </div>
+    <div style="margin-top:8px">
+      <span style="font-size:14px;color:var(--accent);font-family:'STSongti-SC',serif">无外力驱动 — 飞轮因日常之功自转不息</span>
+    </div>
+  </div>
+</section>
+
+<!-- 8. PYRAMID -->
+<section class="s">
+  <div class="eye">知识金字塔</div>
+  <h2 class="h2" style="margin-bottom:24px">四层 · 逐级提纯</h2>
+
+  <div class="pyramid">
+    <div class="pyr-level pyr-4"><span style="color:var(--accent);font-weight:600">第四层 · DDD</span> — 项目权威 · 判断之基</div>
+    <div class="pyr-level pyr-3"><span style="font-weight:500">第三层 · Knowledge/</span> — 通用知识 · 研究参考</div>
+    <div class="pyr-level pyr-2"><span style="font-weight:500">第二层 · MEMORY</span> — Agent 行为记忆</div>
+    <div class="pyr-level pyr-1"><span style="font-weight:500">第一层 · DailyActivity</span> — 原始日志 · 月余即逝</div>
+  </div>
+</section>
+
+<!-- 9. DECISIONS -->
+<section class="s">
+  <div class="eye">关键抉择</div>
+  <h2 class="h2" style="margin-bottom:24px">非最佳实践 — 乃踩坑后之选</h2>
+
+  <div class="d-item">
+    <div class="d-label">其一</div>
+    <div class="d-title">决策基础设施 非文档系统</div>
+    <div class="d-desc">每 section 要么支持判断，要么防止已知之误。余者一概不入。</div>
+  </div>
+  <div class="d-item">
+    <div class="d-label">其三</div>
+    <div class="d-title">增量自动 风险审批</div>
+    <div class="d-desc">八成变更零摩擦通过。二成走安全门。Git 为安全网。</div>
+  </div>
+  <div class="d-item">
+    <div class="d-label">其五</div>
+    <div class="d-title">健康分驱动 AI 非驱动人</div>
+    <div class="d-desc">分低则 AI 自降信任、自标不确定。人类维护成本始终为零。</div>
+  </div>
+  <div class="d-item">
+    <div class="d-label">其八</div>
+    <div class="d-title">Pipeline 复盘 = 最强信号</div>
+    <div class="d-desc">每次 run 产出结构化教训。三倍信号密度。飞轮最强一边。</div>
+  </div>
+</section>
+
+<!-- 10. POSITIONING -->
+<section class="s">
+  <div class="eye">定位</div>
+  <h2 class="h2" style="margin-bottom:24px">与业界方案之比</h2>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding-left:12px">维度</th>
+        <th>CLAUDE.md</th>
+        <th>RAG</th>
+        <th>知识图谱</th>
+        <th class="cmp-ours">DDD 引擎</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>生命周期</td><td>写完即死</td><td>索引刷新</td><td>迁移运维</td><td class="cmp-ours">自培育 (8ch)</td></tr>
+      <tr><td>AI 信任</td><td>无</td><td>相关性</td><td>无</td><td class="cmp-ours">健康分级</td></tr>
+      <tr><td>维护成本</td><td>纯人工</td><td>中等</td><td>高</td><td class="cmp-ours">零</td></tr>
+      <tr><td>跨项目</td><td>无</td><td>共享索引</td><td>原生遍历</td><td class="cmp-ours">实体路由</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:14px;color:var(--text-muted);margin-top:24px;text-align:center;font-family:'STSongti-SC',serif">CLAUDE.md 为始。DDD 为终。</p>
+</section>
+
+<!-- 11. METRICS -->
+<section class="s">
+  <div class="eye">成果</div>
+  <h2 class="h2" style="margin-bottom:24px">数据为证</h2>
+
+  <div class="data-grid">
+    <div class="data-card">
+      <div class="data-before">~40%</div>
+      <div class="data-num">>85%</div>
+      <div class="data-label">首次领域正确率</div>
+    </div>
+    <div class="data-card">
+      <div class="data-before">3-5/月</div>
+      <div class="data-num"><1</div>
+      <div class="data-label">重复犯错</div>
+    </div>
+    <div class="data-card">
+      <div class="data-before">5-10 分钟</div>
+      <div class="data-num"><30秒</div>
+      <div class="data-label">冷启动</div>
+    </div>
+    <div class="data-card">
+      <div class="data-before">~0%</div>
+      <div class="data-num">>60%</div>
+      <div class="data-label">跨项目复用</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. CLOSING -->
+<section class="s">
+  <div class="sep"></div>
+  <p class="quote" style="font-size:24px">"文档之死<br>非因无人书写<br>乃因<span style="color:var(--accent)">维护之费胜于感知之益</span>"</p>
+  <p style="font-size:14px;color:var(--text-muted);margin-top:16px;text-align:center">唯一之解：使维护成本归零。</p>
+</section>
+
+<!-- 13. FOOTER -->
+<section class="footer">
+  <div class="seal">SwarmAI</div>
+  <div style="font-size:14px;color:var(--text-secondary);margin-top:16px;font-family:'STSongti-SC',serif">人主其向 · AI 行其事</div>
+  <div style="font-size:11px;color:var(--text-muted);margin-top:8px">DDD Cultivation Engine · 领域专业知识即基础设施 · 丙午年</div>
+</section>
+
+</body>
+</html>

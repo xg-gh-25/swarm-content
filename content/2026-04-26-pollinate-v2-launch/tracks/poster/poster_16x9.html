@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, initial-scale=1">
+<title>Pollinate Poster v2 — 3:4</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1920px;
+    height: 1080px;
+    font-family: 'PingFang SC', 'Noto Sans SC', 'Inter', sans-serif;
+    background: #0F0F1A;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .poster {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Background grid pattern */
+  .poster::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,107,53,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,107,53,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(255,107,53,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(78,205,196,0.06) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; padding: 52px 52px 40px; }
+
+  /* ─── Hook: The Bold Claim ─── */
+  .hook {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .hook .input-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 24px;
+    margin-bottom: 20px;
+  }
+  .hook .cursor { color: #FF6B35; font-size: 20px; font-family: 'Inter'; }
+  .hook .typed {
+    font-size: 20px;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Inter', monospace;
+  }
+  .hook .arrow-down {
+    font-size: 28px;
+    color: #FF6B35;
+    margin: 8px 0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+  .hook h1 {
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1.25;
+    color: #fff;
+  }
+  .hook h1 .orange {
+    background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hook h1 .teal { color: #4ECDC4; }
+
+  /* ─── Architecture Diagram ─── */
+  .arch {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 28px 28px 24px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .arch-title {
+    position: absolute;
+    top: -12px;
+    left: 28px;
+    background: #0F0F1A;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FF6B35;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Top row: Input → Pipeline → Output */
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .arch-node {
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .arch-node.input {
+    background: rgba(78,205,196,0.15);
+    border: 1px solid rgba(78,205,196,0.3);
+    color: #4ECDC4;
+    flex: 0 0 auto;
+    width: 110px;
+  }
+  .arch-node.input .emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+  .arch-pipe {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(255,107,53,0.12), rgba(255,107,53,0.06));
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 14px;
+    padding: 12px 16px;
+  }
+  .pipe-stages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+  .pipe-stage {
+    font-size: 11px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Inter';
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(255,107,53,0.1);
+  }
+  .pipe-stage.hot {
+    background: rgba(255,107,53,0.3);
+    color: #fff;
+  }
+  .arch-node.output {
+    background: rgba(255,107,53,0.15);
+    border: 1px solid rgba(255,107,53,0.3);
+    color: #FF8F5E;
+    flex: 0 0 auto;
+    width: 110px;
+  }
+  .arch-node.output .emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+  .flow-arrow { color: rgba(255,255,255,0.2); font-size: 22px; flex-shrink: 0; }
+
+  /* Middle row: BUILD internals */
+  .build-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .build-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 10px 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
+  }
+  .build-chip .icon { font-size: 18px; }
+
+  /* Bottom row: 5 platform outputs */
+  .platform-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .plat {
+    flex: 1;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    padding: 10px 6px;
+  }
+  .plat .emoji { font-size: 22px; }
+  .plat .name { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 600; margin-top: 2px; }
+  .plat .fmt { font-size: 10px; color: rgba(255,255,255,0.3); }
+
+  /* Feedback loop arrow */
+  .loop-bar {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,107,53,0.5);
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+
+  /* ─── Proof Section ─── */
+  .proof {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .proof-card {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+  }
+  .proof-card .number {
+    font-size: 40px;
+    font-weight: 900;
+    font-family: 'Inter';
+    line-height: 1;
+  }
+  .proof-card .number.orange { color: #FF6B35; }
+  .proof-card .number.teal { color: #4ECDC4; }
+  .proof-card .number.white { color: rgba(255,255,255,0.9); }
+  .proof-card .label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .proof-card .detail {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 4px;
+  }
+
+  /* ─── Real Example ─── */
+  .example {
+    background: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(78,205,196,0.05));
+    border: 1px solid rgba(255,107,53,0.15);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .example-label {
+    font-size: 12px;
+    color: #FF6B35;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .example-flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ex-input {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    flex: 0 0 auto;
+    max-width: 280px;
+    font-family: 'Inter', monospace;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .ex-arrow { color: #FF6B35; font-size: 24px; flex-shrink: 0; }
+  .ex-outputs {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+  .ex-out {
+    background: rgba(255,107,53,0.1);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+  }
+  .ex-out .check { color: #00B894; }
+
+  /* ─── Footer: Brand + QR ─── */
+  .footer {
+    margin-top: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .brand-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-line .bee { font-size: 32px; }
+  .brand-line .name {
+    font-size: 24px;
+    font-weight: 800;
+    font-family: 'Inter';
+    background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-tagline {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+  .brand-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  .brand-link {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    font-family: 'Inter';
+  }
+
+  .qr-area {
+    text-align: center;
+  }
+  .qr-placeholder {
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #333;
+    font-weight: 700;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .qr-placeholder .gh-icon { font-size: 28px; }
+  .qr-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+<div class="content">
+
+  <!-- Hook: The Bold Claim -->
+  <div class="hook">
+    <div class="input-line">
+      <span class="cursor">▶</span>
+      <span class="typed">"做一个关于 AI Pipeline 的视频"</span>
+    </div>
+    <div class="arrow-down">↓</div>
+    <h1>一句话进去<br><span class="orange">5个平台的视频</span>出来</h1>
+  </div>
+
+  <!-- Architecture Diagram -->
+  <div class="arch">
+    <div class="arch-title">⚡ Solution Architecture</div>
+
+    <!-- Flow: Input → Pipeline → Output -->
+    <div class="arch-flow">
+      <div class="arch-node input">
+        <span class="emoji">💡</span>
+        话题 / 知识
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="arch-pipe">
+        <div class="pipe-stages">
+          <span class="pipe-stage">EVALUATE</span>
+          <span class="pipe-stage">THINK</span>
+          <span class="pipe-stage">PLAN</span>
+          <span class="pipe-stage hot">BUILD</span>
+          <span class="pipe-stage">REVIEW</span>
+          <span class="pipe-stage">TEST</span>
+          <span class="pipe-stage">DELIVER</span>
+          <span class="pipe-stage">REFLECT</span>
+        </div>
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="arch-node output">
+        <span class="emoji">📦</span>
+        多平台内容
+      </div>
+    </div>
+
+    <!-- BUILD internals -->
+    <div class="build-row">
+      <div class="build-chip"><span class="icon">📝</span> 脚本生成</div>
+      <div class="build-chip"><span class="icon">🎙️</span> Polly TTS</div>
+      <div class="build-chip"><span class="icon">🎬</span> 4K 渲染</div>
+      <div class="build-chip"><span class="icon">🖼️</span> 缩略图×3</div>
+      <div class="build-chip"><span class="icon">📐</span> 竖版裁切</div>
+      <div class="build-chip"><span class="icon">🎵</span> BGM 混音</div>
+      <div class="build-chip"><span class="icon">📋</span> 字幕烧录</div>
+      <div class="build-chip"><span class="icon">✅</span> 19项检查</div>
+    </div>
+
+    <!-- 5 platforms -->
+    <div class="platform-row">
+      <div class="plat"><div class="emoji">📺</div><div class="name">B站</div><div class="fmt">4K横版</div></div>
+      <div class="plat"><div class="emoji">▶️</div><div class="name">YouTube</div><div class="fmt">4K横版</div></div>
+      <div class="plat"><div class="emoji">📕</div><div class="name">小红书</div><div class="fmt">竖版9:16</div></div>
+      <div class="plat"><div class="emoji">🎵</div><div class="name">抖音</div><div class="fmt">竖版9:16</div></div>
+      <div class="plat"><div class="emoji">💬</div><div class="name">视频号</div><div class="fmt">竖版9:16</div></div>
+    </div>
+
+    <div class="loop-bar">↻ REFLECT 经验闭环 — 每次翻车只翻一次，Pipeline 自我进化</div>
+  </div>
+
+  <!-- Real Example -->
+  <div class="example">
+    <div class="example-label">🔥 Real Example — 这张海报就是 Pollinate 生成的</div>
+    <div class="example-flow">
+      <div class="ex-input">"做一张 Swarm Pollinate<br>新功能推广海报"</div>
+      <div class="ex-arrow">→</div>
+      <div class="ex-outputs">
+        <div class="ex-out"><span class="check">✓</span> 选题评估 ROI 4.6</div>
+        <div class="ex-out"><span class="check">✓</span> 内容策划</div>
+        <div class="ex-out"><span class="check">✓</span> 海报设计×2尺寸</div>
+        <div class="ex-out"><span class="check">✓</span> 小红书文案</div>
+        <div class="ex-out"><span class="check">✓</span> B站动态文案</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proof Stats -->
+  <div class="proof">
+    <div class="proof-card">
+      <div class="number orange">8</div>
+      <div class="label">阶段闭环</div>
+      <div class="detail">EVALUATE → REFLECT</div>
+    </div>
+    <div class="proof-card">
+      <div class="number teal">19</div>
+      <div class="label">质量检查项</div>
+      <div class="detail">每个从真实 Bug 来</div>
+    </div>
+    <div class="proof-card">
+      <div class="number white">5 min</div>
+      <div class="label">话题→视频</div>
+      <div class="detail">含渲染等待时间</div>
+    </div>
+  </div>
+
+  <!-- Footer: Brand + QR -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="brand-line">
+        <span class="bee">🐝</span>
+        <span class="name">Swarm Pollinate</span>
+      </div>
+      <div class="brand-tagline">AI 实践者，不是布道者</div>
+      <div class="brand-links">
+        <span class="brand-link">小红书: Swarm-Blabla</span>
+        <span class="brand-link">GitHub: xg-gh-25/SwarmAI</span>
+      </div>
+    </div>
+    <div class="qr-area" style="display: flex; gap: 16px; align-items: flex-end;">
+      <div style="text-align: center;">
+        <img src="xhs_qr.png" width="88" height="88" style="border-radius: 10px; background: #fff; padding: 3px;" />
+        <div class="qr-label">📕 关注小红书</div>
+      </div>
+      <div style="text-align: center;">
+        <img src="github_qr.png" width="88" height="88" style="border-radius: 10px; background: #fff; padding: 3px;" />
+        <div class="qr-label">🐙 GitHub 源码</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+:root {
+  --bg-deep: #F2EDE8;
+  --bg-elevated: #FFFFFF;
+  --bg-surface: rgba(180,160,140,0.05);
+  --border: rgba(180,160,140,0.12);
+  --accent: #B08D6B;
+  --accent-dim: rgba(176,141,107,0.10);
+  --text-primary: #3D3530;
+  --text-secondary: rgba(61,53,48,0.65);
+  --text-muted: rgba(61,53,48,0.4);
+  --accent-secondary: #7B9E89;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-deep); color: var(--text-primary); font-family: "PingFang SC", -apple-system, sans-serif; width: 1080px; }
+.hero { text-align: center; padding: 64px 48px; }
+.hero h1 { font-size: 48px; font-weight: 600; line-height: 1.4; text-align: center; color: var(--text-primary); }
+.hero .subtitle { font-size: 20px; color: var(--text-secondary); margin-top: 16px; text-align: center; line-height: 2.0; max-width: 700px; margin-left: auto; margin-right: auto; }
+.s { text-align: center; padding: 48px 48px; }
+.s h2 { font-size: 28px; font-weight: 600; color: var(--accent); margin-bottom: 20px; text-align: center; }
+.s p { font-size: 19px; line-height: 2.0; color: var(--text-secondary); max-width: 700px; margin: 0 auto; text-align: center; }
+.card { text-align: center; background: var(--bg-elevated); border-radius: 16px; padding: 36px; margin: 16px 48px; }
+.card h3 { font-size: 22px; color: var(--accent); margin-bottom: 12px; text-align: center; }
+.card p { font-size: 18px; line-height: 2.0; color: var(--text-secondary); max-width: 700px; margin: 0 auto; text-align: center; }
+.footer { text-align: center; padding: 48px; }
+.footer p { font-size: 14px; color: var(--text-muted); text-align: center; }
+.footer .brand { font-size: 18px; color: var(--text-secondary); margin-bottom: 16px; text-align: center; }
+.watermark { text-align: right; padding: 12px 24px; font-size: 11px; color: var(--text-muted); opacity: 0.6; }
+.eyebrow { text-align: center; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.quote { text-align: center; padding: 36px 64px; font-style: italic; font-size: 22px; color: var(--text-secondary); line-height: 2.0; }
+</style>
+</head>
+<body>
+<!-- Direction: D5 Morandi -->
+<div class="hero">
+  <div class="eyebrow">关于知识的生长</div>
+  <h1>你的 AI 为什么越用越聪明</h1>
+  <p class="subtitle">不是因为模型进化了<br>是因为领域知识在每一次工作中悄悄沉淀</p>
+</div>
+
+<div class="quote">
+  "文档是死的，知识是活的。<br>区别在于：有没有人持续浇灌。"
+</div>
+
+<div class="s">
+  <h2>传统 AI 助手的困境</h2>
+  <p>每次对话从零开始。上次学到的教训，这次又犯。上周做的决定，这周又重新做。没有记忆，就没有成长。</p>
+</div>
+
+<div class="card">
+  <h3>DDD Cultivation 的解法</h3>
+  <p>让知识从日常工作中自动提取和沉淀。<br>
+  每次完成任务 → 自动提炼教训 → 更新领域文档 → 下次决策更准。<br>
+  你不需要"记得去维护"。系统替你累积。</p>
+</div>
+
+<div class="card">
+  <h3>一个简单的比喻</h3>
+  <p>想象一个新同事，入职第一天什么都不懂。<br>
+  但每做一件事都会记笔记。<br>
+  三个月后，他的判断力比你预期的好得多。<br>
+  DDD Cultivation 就是那些笔记——自动化的。</p>
+</div>
+
+<div class="s">
+  <h2>效果</h2>
+  <p>Session 1 的 AI 和 Session 100 的 AI 不是同一个。<br>
+  不是模型升级了，是知识累积了。<br>
+  这就是 Compound Intelligence。</p>
+</div>
+
+<div class="footer">
+  <p class="brand">🐝 SwarmAI · Human directs, AI delivers</p>
+  <img src="qr-github-dark-on-light.png" width="72" alt="QR">
+  <p>github.com/xg-gh-25/SwarmAI</p>
+</div>
+<div class="watermark">🐝 Made with SwarmAI Pollinate</div>
+</body>
+</html>

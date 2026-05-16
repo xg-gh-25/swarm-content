@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- Direction: D5 Morandi -->
+<style>
+:root {
+  --bg-deep: #F2EDE8;
+  --bg-elevated: #FFFFFF;
+  --bg-surface: rgba(180,160,140,0.05);
+  --border: rgba(180,160,140,0.12);
+  --accent: #B08D6B;
+  --accent-dim: rgba(176,141,107,0.10);
+  --accent-secondary: #7B9E89;
+  --text-primary: #3D3530;
+  --text-secondary: rgba(61,53,48,0.65);
+  --text-muted: rgba(61,53,48,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;background:var(--bg-deep);font-family:"Noto Sans SC","Source Han Sans SC","PingFang SC",sans-serif;color:var(--text-primary);-webkit-font-smoothing:antialiased}
+.s{padding:48px 80px;text-align:center}
+.hero{padding:72px 80px 48px;text-align:center}
+.h1{font-size:52px;font-weight:500;line-height:1.3;max-width:800px;margin:0 auto}
+.h2{font-size:32px;font-weight:500;line-height:1.4;max-width:700px;margin:0 auto}
+.body{font-size:20px;line-height:2.0;color:var(--text-secondary);max-width:700px;margin:0 auto;text-align:center}
+.eye{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-family:"Inter",monospace}
+.pill{display:inline-block;background:var(--accent-dim);color:var(--accent);padding:6px 18px;border-radius:999px;font-size:13px;font-weight:600;margin:4px 5px}
+.pill-g{background:rgba(123,158,137,0.12);color:var(--accent-secondary)}
+.card{background:var(--bg-elevated);border-radius:24px;padding:40px 48px;box-shadow:0 12px 40px -12px rgba(61,53,48,0.06);max-width:920px;margin:0 auto}
+.g1{background:linear-gradient(160deg,#E8DDD4,#F5EDE5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g2{background:linear-gradient(160deg,#DDE8D4,#EDF5E5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g3{background:linear-gradient(160deg,#D4DDE8,#E5EDF5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g4{background:linear-gradient(160deg,#E8D4DD,#F5E5ED);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.g5{background:linear-gradient(160deg,#E8E4D4,#F5F1E5);border-radius:20px;padding:36px 40px;max-width:860px;margin:12px auto}
+.sep{height:1px;width:120px;margin:0 auto;background:var(--border)}
+.quote{font-size:26px;font-weight:500;line-height:1.5;max-width:700px;margin:0 auto;font-style:italic}
+.num{font-size:24px;font-weight:700;color:var(--accent);font-family:"Manrope","Inter",sans-serif;margin-bottom:8px}
+.src{font-size:14px;color:var(--text-muted);margin-top:8px;font-family:"Inter",sans-serif}
+.arch{background:var(--bg-elevated);border-radius:24px;padding:40px 32px;max-width:920px;margin:0 auto}
+.al{background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;padding:14px 20px;margin:6px 0;text-align:center}
+.al-a{background:var(--accent-dim);border-color:var(--accent)}
+.al h4{font-size:15px;font-weight:600;margin-bottom:2px}
+.al p{font-size:12px;color:var(--text-secondary)}
+.ar{display:flex;gap:10px}
+.ar>div{flex:1}
+.arrow{text-align:center;color:var(--accent);font-size:16px;margin:2px 0}
+.footer{padding:48px 80px;text-align:center;background:linear-gradient(180deg,var(--bg-deep),#EBE6E0)}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="eye">POLLINATE — CONTENT AS BLACK BOX</div>
+  <h1 class="h1">内容平权</h1>
+  <p style="font-size:22px;color:var(--text-secondary);margin-top:12px">一个人也能做出团队级别的内容</p>
+  <div style="margin-top:24px">
+    <span class="pill">设计哲学</span>
+    <span class="pill pill-g">方法论</span>
+    <span class="pill">架构</span>
+  </div>
+</section>
+
+<section class="s" style="padding-top:24px">
+  <div class="sep" style="margin-bottom:36px"></div>
+  <p class="quote">"好内容不是写出来的，<br>是约束出来的。"</p>
+  <p style="font-size:14px;color:var(--text-muted);margin-top:12px">— Pollinate Design Philosophy</p>
+</section>
+
+<section class="s">
+  <div class="card">
+    <p class="eye">THE PROBLEM</p>
+    <h2 class="h2" style="margin-bottom:16px">个人创作者的内容<br>为什么总是"差一点"？</h2>
+    <p class="body" style="font-size:18px">不是想法不好。是没有设计系统、没有品牌一致性、没有质量门禁。<br>企业有团队把关，个人只有直觉。</p>
+    <p style="font-size:20px;font-weight:600;margin-top:20px;color:var(--text-primary);text-align:center">内容平权 = 一个人的输出，团队的品质。</p>
+  </div>
+</section>
+
+<section class="s">
+  <p class="eye">DESIGN PRINCIPLES</p>
+  <h2 class="h2" style="margin-bottom:24px">五个设计哲学</h2>
+
+  <div class="g1">
+    <div class="num">01</div>
+    <p style="font-size:20px;font-weight:600;text-align:center;margin-bottom:8px">约束创造品味</p>
+    <p class="body" style="font-size:17px">告诉 AI 什么不能做，比告诉它什么能做更有效。<br>32 条视觉禁令 + 13 条结构禁令 = 平庸不可能通过。</p>
+    <p class="src">← huashu-design ban list + Satori CSS 子集</p>
+  </div>
+
+  <div class="g2">
+    <div class="num">02</div>
+    <p style="font-size:20px;font-weight:600;text-align:center;margin-bottom:8px">命名方向，非自由发挥</p>
+    <p class="body" style="font-size:17px">每张海报映射到一个命名方向。方向即约束。<br>5 个方向 × 完整色彩/排版/情绪 = AI 在边界内创作。</p>
+    <p class="src">← huashu-design 5 Schools × 20 Philosophies</p>
+  </div>
+
+  <div class="g3">
+    <div class="num">03</div>
+    <p style="font-size:20px;font-weight:600;text-align:center;margin-bottom:8px">语义 Token，非硬编码值</p>
+    <p class="body" style="font-size:17px">用 purpose 命名颜色，不用 appearance。<br>切换方向 = 换一组 Token，零成本，零走样。</p>
+    <p class="src">← Radix Colors 12-step 功能色阶 + Catppuccin 数学推导</p>
+  </div>
+
+  <div class="g4">
+    <div class="num">04</div>
+    <p style="font-size:20px;font-weight:600;text-align:center;margin-bottom:8px">一份内容，多格式输出</p>
+    <p class="body" style="font-size:17px">内容结构与视觉呈现分离。<br>同一 message → 小红书 / OG / Story / 长图。</p>
+    <p class="src">← html-anything 75 skills + haberkart 8-target pattern</p>
+  </div>
+
+  <div class="g5">
+    <div class="num">05</div>
+    <p style="font-size:20px;font-weight:600;text-align:center;margin-bottom:8px">中文优先，双语默认</p>
+    <p class="body" style="font-size:17px">中文排版规则是 first-class，英文是适配。<br>标点压缩、CJK-Latin 间距、两端对齐。</p>
+    <p class="src">← Heti 赫蹏 CLReq + html-anything CJK font stack</p>
+  </div>
+</section>
+
+<section class="s">
+  <p class="eye">QUALITY CONVERGENCE</p>
+  <h2 class="h2" style="margin-bottom:16px">8 层质量门禁</h2>
+  <p class="body" style="font-size:17px;margin-bottom:24px">输出必须同时通过全部 8 层。<br>通过 7 层 ≠ 可发布。迭代直到全过。</p>
+
+  <div class="card" style="padding:32px 36px;text-align:center">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:700px;margin:0 auto">
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L1</span> 方向声明</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L2</span> Token 纯度</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L3</span> 间距合规</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L4</span> 对齐统一</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L5</span> Anti-Slop</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L6</span> 平台适配</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent);font-weight:700">L7</span> 品牌一致</div>
+      <div style="background:var(--bg-deep);border-radius:12px;padding:14px"><span style="color:var(--accent-secondary);font-weight:700">L8</span> 双版本输出</div>
+    </div>
+    <p style="font-size:14px;color:var(--text-muted);margin-top:16px">Convergence Loop: 最多 3 次迭代，直到 8/8 全绿</p>
+  </div>
+</section>
+
+<section class="s">
+  <p class="eye">ARCHITECTURE</p>
+  <h2 class="h2" style="margin-bottom:12px">Pollinate 架构</h2>
+  <p class="body" style="font-size:16px;margin-bottom:24px">一个知识层，多个输出引擎。知识从工作中自己生长。</p>
+  <div class="arch">
+    <div class="al g1"><h4>📝 Input</h4><p>一句话 · 一段文字 · 一个 URL · 一个想法</p></div>
+    <div class="arrow">↓</div>
+    <div class="al al-a"><h4>🧠 DDD Knowledge Layer</h4><p>PRODUCT · TECH · IMPROVEMENT · THESIS — 每次输出比上次更好</p></div>
+    <div class="arrow">↓</div>
+    <div class="al"><h4>🎨 Design Intelligence</h4><p>5 方向 × 11 Token × Anti-Slop Gate × Platform-Adaptive</p></div>
+    <div class="arrow">↓</div>
+    <div class="al" style="background:var(--accent-dim);border-color:var(--accent)"><h4>🔁 8-Layer Quality Convergence</h4><p>生成 → 验证 → 修复 → 再验证 → 直到 8/8 通过</p></div>
+    <div class="arrow">↓</div>
+    <div class="ar">
+      <div class="al g2"><h4>🖼️ 海报</h4></div>
+      <div class="al g3"><h4>🎬 视频</h4></div>
+      <div class="al g4"><h4>📖 叙事</h4></div>
+    </div>
+    <div class="arrow">↓</div>
+    <div class="al g5"><h4>📱 2-Variant Structured Delivery</h4><p>A/B 方向 + 质量门禁表 + 可执行 Next Steps</p></div>
+  </div>
+</section>
+
+<section class="footer">
+  <div style="font-size:40px;margin-bottom:12px">🐝</div>
+  <div style="font-size:34px;font-weight:600;margin-bottom:6px">SwarmAI</div>
+  <div style="font-size:19px;font-weight:500;color:var(--accent);margin-bottom:28px;font-family:'Manrope','Inter',sans-serif">Human directs. AI delivers.</div>
+  <img src="/Users/gawan/Desktop/SwarmAI-Workspace/swarmai/backend/skills/s_pollinate/brand/assets/logo/qr-github-dark-on-light.png" width="100" height="100" style="border-radius:12px;display:block;margin:0 auto"/>
+  <p style="font-size:13px;color:var(--text-muted);margin-top:12px;font-family:'SF Mono',monospace">github.com/xg-gh-25/SwarmAI</p>
+</section>
+
+<div style="padding:12px 36px;text-align:right">
+  <span style="font-size:11px;font-weight:500;color:var(--text-muted);font-family:'Manrope','Inter',sans-serif;letter-spacing:0.5px;opacity:0.6">🐝 Made with SwarmAI Pollinate</span>
+</div>
+</body>
+</html>

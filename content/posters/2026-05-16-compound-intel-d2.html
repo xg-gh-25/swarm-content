@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- D2 Paper — Compound Agent Intelligence 长文章（enriched） -->
+<style>
+:root {
+  --bg-deep: #FAFAF8;
+  --bg-elevated: #FFFFFF;
+  --bg-surface: rgba(0,0,0,0.02);
+  --border: rgba(0,0,0,0.10);
+  --accent: #D35940;
+  --accent-dim: rgba(211,89,64,0.08);
+  --text-primary: #111111;
+  --text-secondary: rgba(0,0,0,0.75);
+  --text-muted: rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;background:var(--bg-deep);font-family:"PingFang SC","Noto Sans SC",sans-serif;color:var(--text-primary);-webkit-font-smoothing:antialiased}
+.s{padding:120px 80px;text-align:center}
+.hero{padding:144px 80px 96px;text-align:center}
+.h1{font-size:48px;font-weight:300;line-height:1.3;max-width:800px;margin:0 auto;letter-spacing:-0.5px}
+.h2{font-size:28px;font-weight:300;line-height:1.4;max-width:700px;margin:0 auto}
+.body{font-size:16px;line-height:2.2;color:var(--text-secondary);max-width:700px;margin:0 auto;text-align:center}
+.eye{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-family:"Inter","SF Mono",monospace;text-align:center}
+.pill{display:inline-block;background:var(--accent-dim);color:var(--accent);padding:5px 16px;border-radius:999px;font-size:12px;font-weight:500;margin:3px 4px}
+.card{background:var(--bg-elevated);border-radius:20px;padding:48px 36px;border:0.5px solid var(--border);max-width:920px;margin:0 auto;text-align:center;box-shadow:0 24px 60px -20px rgba(0,0,0,0.08)}
+.sep{height:96px;display:flex;align-items:center;justify-content:center}
+.sep::after{content:'';width:1px;height:48px;background:linear-gradient(to bottom,transparent,var(--accent),transparent);opacity:0.4}
+.quote{font-size:22px;font-weight:300;line-height:1.6;max-width:700px;margin:0 auto;text-align:center;font-style:italic}
+/* Flywheel */
+.flywheel{max-width:860px;margin:24px auto 0;background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:20px;padding:48px 36px;box-shadow:0 8px 30px -8px rgba(0,0,0,0.06);text-align:center}
+.fly-ring{position:relative;width:520px;height:520px;margin:0 auto;border:1.5px solid var(--border);border-radius:50%}
+.fly-node{position:absolute;background:var(--bg-deep);border:1px solid var(--border);border-radius:12px;padding:12px 16px;font-size:13px;font-weight:500;text-align:center;width:140px;box-shadow:0 2px 8px -2px rgba(0,0,0,0.06)}
+.fly-node-accent{border-color:var(--accent);color:var(--accent)}
+.fly-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.fly-center-text{font-size:14px;font-weight:600;color:var(--accent)}
+.fly-center-sub{font-size:11px;color:var(--text-muted);margin-top:4px}
+.fly-edge{position:absolute;font-size:10px;color:var(--text-muted);font-family:"SF Mono",monospace;letter-spacing:0.5px}
+/* Loops */
+.loop-grid{display:grid;grid-template-columns:1fr;gap:16px;max-width:780px;margin:24px auto 0}
+.loop-item{background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:16px;padding:24px 28px;text-align:left;box-shadow:0 2px 8px -2px rgba(0,0,0,0.04)}
+.loop-label{font-size:11px;font-weight:600;color:var(--accent);font-family:"Inter",monospace;letter-spacing:1px;margin-bottom:6px}
+.loop-title{font-size:17px;font-weight:400;margin-bottom:6px}
+.loop-flow{font-size:13px;color:var(--text-secondary);line-height:1.8;font-family:"SF Mono",monospace}
+.loop-effect{font-size:13px;color:var(--accent);margin-top:8px;font-weight:500}
+/* Hardening table */
+.hard-table{width:100%;max-width:860px;margin:24px auto 0;border-collapse:collapse;font-size:13px}
+.hard-table th{background:var(--bg-elevated);color:var(--accent);padding:14px 12px;border:0.5px solid var(--border);font-weight:600;font-size:11px;letter-spacing:1px;text-align:left}
+.hard-table td{padding:12px;border:0.5px solid var(--border);color:var(--text-secondary);line-height:1.6;vertical-align:top}
+.hard-table td:first-child{font-weight:500;color:var(--text-primary);white-space:nowrap}
+.hard-table .code{font-family:"SF Mono",monospace;font-size:11px;color:var(--text-muted)}
+/* Level cards */
+.level-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:860px;margin:24px auto 0}
+.level-card{background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:12px;padding:20px 16px;text-align:center;box-shadow:0 2px 8px -2px rgba(0,0,0,0.04)}
+.level-card-accent{border-color:var(--accent);box-shadow:0 4px 16px -4px rgba(211,89,64,0.12)}
+.level-num{font-size:11px;font-weight:600;color:var(--accent);font-family:"Inter",monospace;letter-spacing:1px;margin-bottom:4px}
+.level-title{font-size:14px;font-weight:500;margin-bottom:4px}
+.level-desc{font-size:12px;color:var(--text-secondary);line-height:1.6}
+/* Text blocks */
+.text-block{max-width:700px;margin:0 auto;text-align:center}
+.text-block p{font-size:16px;line-height:2.2;color:var(--text-secondary);margin-bottom:24px}
+.highlight{color:var(--text-primary);font-weight:500}
+.accent{color:var(--accent);font-weight:500}
+/* Insight cards */
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:860px;margin:24px auto 0}
+.insight-card{background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:12px;padding:20px;text-align:left;box-shadow:0 2px 8px -2px rgba(0,0,0,0.04)}
+.insight-title{font-size:14px;font-weight:500;margin-bottom:6px}
+.insight-why{font-size:12px;color:var(--text-secondary);line-height:1.7}
+.insight-unique{font-size:11px;color:var(--accent);margin-top:8px;font-weight:500}
+/* Timeline */
+.timeline{max-width:700px;margin:24px auto 0;display:flex;justify-content:space-between;align-items:flex-end;padding:0 20px}
+.tl-item{text-align:center;flex:1}
+.tl-bar{width:4px;margin:0 auto 8px;background:var(--accent);border-radius:2px;opacity:0.7}
+.tl-label{font-size:12px;color:var(--text-muted)}
+.tl-value{font-size:11px;color:var(--text-secondary);margin-top:4px}
+/* Footer */
+.footer{padding:96px 80px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eye">DESIGN PHILOSOPHY · 收束篇</div>
+  <h1 class="h1">当设计哲学变成编译器</h1>
+  <p style="font-size:24px;font-weight:300;color:var(--text-secondary);margin-top:12px;text-align:center">Compound Agent Intelligence</p>
+  <p style="font-size:18px;color:var(--text-muted);margin-top:8px;text-align:center">为什么 1+1+1+1 > 4</p>
+  <div style="margin-top:24px">
+    <span class="pill">Harness</span>
+    <span class="pill">DDD</span>
+    <span class="pill">Pipeline</span>
+    <span class="pill">Pollinate</span>
+    <span class="pill">Compound</span>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section class="s" style="padding-top:48px">
+  <div class="sep"></div>
+  <p class="quote">"哲学不是'我们相信什么'。<br>是'用什么机制 <span style="color:var(--accent)">enforce</span> 什么不变量'。"</p>
+  <p style="font-size:14px;color:var(--text-muted);margin-top:16px;text-align:center">Best practice 是建议 — 靠人遵守，会忘。<br>Enforcement 是物理定律 — 靠系统约束，不可能违反。</p>
+</section>
+
+<!-- CORE ARGUMENT -->
+<section class="s">
+  <div class="eye">CORE ARGUMENT</div>
+  <h2 class="h2" style="margin-bottom:24px">单个能力有天花板。复利没有。</h2>
+
+  <div class="text-block">
+    <p>
+      一个好的交付引擎 — 有天花板。模型能力决定上限。<br>
+      一个好的知识系统 — 有天花板。人的维护精力决定上限。<br>
+      一个好的记忆架构 — 有天花板。Context window 决定上限。
+    </p>
+    <p>
+      但如果它们<span class="accent">互相喂养</span>？<br>
+      交付引擎产出 lessons → 知识系统更丰富 → 下次交付更准确 → 产出更好的 lessons → ...<br>
+      天花板消失了。每个组件的输出是另一个组件的输入。
+    </p>
+    <p>
+      <span class="highlight">Compound 的本质：不是每个部分好。是部分之间有正向循环。</span>
+    </p>
+  </div>
+</section>
+
+<!-- THE FLYWHEEL -->
+<section class="s">
+  <div class="eye">THE FLYWHEEL</div>
+  <h2 class="h2" style="margin-bottom:12px">四个系统，三条正向循环</h2>
+  <p class="body" style="margin-bottom:36px">每条循环独立运转。三条叠加 = compound。</p>
+
+  <div class="flywheel">
+    <!-- SVG Flywheel -->
+    <svg width="560" height="560" viewBox="0 0 560 560" style="display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer ring -->
+      <circle cx="280" cy="280" r="220" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1.5"/>
+      <!-- Flow arrows (clockwise arc) -->
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#D35940" opacity="0.7"/>
+        </marker>
+      </defs>
+      <!-- Clockwise flow arcs -->
+      <path d="M 390 100 A 200 200 0 0 1 480 280" fill="none" stroke="#D35940" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+      <path d="M 480 370 A 200 200 0 0 1 370 470" fill="none" stroke="#D35940" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+      <path d="M 190 470 A 200 200 0 0 1 80 350" fill="none" stroke="#D35940" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+      <path d="M 80 190 A 200 200 0 0 1 200 90" fill="none" stroke="#D35940" stroke-width="1.5" opacity="0.4" marker-end="url(#arrowhead)"/>
+      <!-- Center -->
+      <text x="280" y="272" text-anchor="middle" font-family="Inter,SF Mono,monospace" font-size="14" font-weight="600" fill="#D35940">COMPOUND</text>
+      <text x="280" y="294" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="11" fill="rgba(0,0,0,0.5)">每次循环比上次更强</text>
+      <!-- Nodes -->
+      <!-- Top: DDD -->
+      <rect x="215" y="36" width="130" height="52" rx="12" fill="#FAFAF8" stroke="#D35940" stroke-width="1.5"/>
+      <text x="280" y="58" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="14" font-weight="500" fill="#D35940">DDD</text>
+      <text x="280" y="76" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="11" fill="rgba(0,0,0,0.5)">知识层</text>
+      <!-- Right: Pipeline -->
+      <rect x="468" y="254" width="130" height="52" rx="12" fill="#FAFAF8" stroke="rgba(0,0,0,0.10)" stroke-width="1"/>
+      <text x="533" y="276" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="14" font-weight="500" fill="#111111">Pipeline</text>
+      <text x="533" y="294" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="11" fill="rgba(0,0,0,0.5)">交付引擎</text>
+      <!-- Bottom: Harness -->
+      <rect x="215" y="472" width="130" height="52" rx="12" fill="#FAFAF8" stroke="#D35940" stroke-width="1.5"/>
+      <text x="280" y="494" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="14" font-weight="500" fill="#D35940">Harness</text>
+      <text x="280" y="512" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="11" fill="rgba(0,0,0,0.5)">基座层</text>
+      <!-- Left: Pollinate -->
+      <rect x="-8" y="254" width="130" height="52" rx="12" fill="#FAFAF8" stroke="rgba(0,0,0,0.10)" stroke-width="1"/>
+      <text x="57" y="276" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="14" font-weight="500" fill="#111111">Pollinate</text>
+      <text x="57" y="294" text-anchor="middle" font-family="PingFang SC,sans-serif" font-size="11" fill="rgba(0,0,0,0.5)">内容引擎</text>
+      <!-- Edge labels -->
+      <text x="430" y="170" text-anchor="middle" font-family="SF Mono,monospace" font-size="10" fill="rgba(0,0,0,0.4)">REFLECT → lessons</text>
+      <text x="430" y="420" text-anchor="middle" font-family="SF Mono,monospace" font-size="10" fill="rgba(0,0,0,0.4)">← reads domain rules</text>
+      <text x="130" y="170" text-anchor="middle" font-family="SF Mono,monospace" font-size="10" fill="rgba(0,0,0,0.4)">REFLECT → insights</text>
+      <text x="130" y="420" text-anchor="middle" font-family="SF Mono,monospace" font-size="10" fill="rgba(0,0,0,0.4)">← reads brand context</text>
+    </svg>
+  </div>
+
+  <div class="loop-grid" style="margin-top:48px">
+    <div class="loop-item">
+      <div class="loop-label">LOOP 1 — CODE COMPOUND</div>
+      <div class="loop-title">Pipeline × DDD</div>
+      <div class="loop-flow">Pipeline reads DDD → domain-correct delivery → REFLECT writes lessons → DDD richer → next Pipeline smarter</div>
+      <div class="loop-effect">每次交付严格优于上次</div>
+    </div>
+    <div class="loop-item">
+      <div class="loop-label">LOOP 2 — CONTENT COMPOUND</div>
+      <div class="loop-title">Pollinate × DDD</div>
+      <div class="loop-flow">Pollinate reads DDD → brand-correct content → REFLECT writes audience insights → DDD richer → next content more precise</div>
+      <div class="loop-effect">每条内容比上条更贴合受众</div>
+    </div>
+    <div class="loop-item">
+      <div class="loop-label">LOOP 3 — EVOLUTION COMPOUND</div>
+      <div class="loop-title">Harness × Everything</div>
+      <div class="loop-flow">Error → Correction → EVOLUTION.md → pattern recurs → STEERING rule → permanent behavior change → bug class eliminated</div>
+      <div class="loop-effect">错误不会累积 — 错误会消亡</div>
+    </div>
+  </div>
+</section>
+
+<!-- LEVEL 1: MECHANICAL ENFORCEMENT -->
+<section class="s">
+  <div class="eye">LEVEL 1: STRUCTURAL IMPOSSIBILITY</div>
+  <h2 class="h2" style="margin-bottom:12px">机械化执行 — 违反不可能</h2>
+  <p class="body" style="margin-bottom:24px">不是 best practice。是 compile-time guarantee + runtime enforcement。<br>等价于类型系统 — 违反不是 bad practice，是"不编译"。</p>
+
+  <table class="hard-table">
+    <thead>
+      <tr>
+        <th>哲学</th>
+        <th>为什么是"机械化"</th>
+        <th>证据</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Self-Evolution</td>
+        <td>C001→C025 自动写入 EVOLUTION.md → steeringify 提取 → STEERING.md 规则。是代码路径不是人工判断。</td>
+        <td><span class="code">evolution_maintenance_hook.py<br>+ s_steeringify</span></td>
+      </tr>
+      <tr>
+        <td>Self-Memory</td>
+        <td>DailyActivity 30d TTL → distillation hook → MEMORY.md → DDD promotion。每层有代码驱动。</td>
+        <td><span class="code">distillation_hook.py<br>+ ddd_cultivation.py</span></td>
+      </tr>
+      <tr>
+        <td>Self-Context</td>
+        <td>System 文件 = 启动覆写（你编辑会丢）。Agent 文件 = locked_write（并发保护）。不是"请遵守" — 是"代码不让你破坏"。</td>
+        <td><span class="code">context_directory_loader.py<br>ensure_directory()</span></td>
+      </tr>
+      <tr>
+        <td>Prevention > Recovery</td>
+        <td>timeout、state machine transitions、Lock 是代码结构。挂不了不是因为"规则说别挂" — 是 structurally impossible。</td>
+        <td><span class="code">asyncio.Lock<br>GIT_TIMEOUT=10<br>intentional_shutdown flag</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- LEVEL 2: WIP -->
+<section class="s">
+  <div class="eye">LEVEL 2: MECHANISM RUNNING, PRECISION IMPROVING</div>
+  <h2 class="h2" style="margin-bottom:12px">从 directive 到 gate — 路上的三个</h2>
+  <p class="body" style="margin-bottom:24px">机制已经在跑。还没到"违反不可能"。共同 pattern：文字规则 → 代码强制。<br>Self-Evolution 花了 3 个月走完这条路。这三个在同一条路径上。</p>
+
+  <table class="hard-table">
+    <thead>
+      <tr>
+        <th>哲学</th>
+        <th>当前状态</th>
+        <th>下一步</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Self-Feedback</td>
+        <td>Hook 每 session 都跑。LLM extraction 的 signal/noise ratio 不稳定 — 有时提取"读了 file X"而不是"发现了 insight Y"。</td>
+        <td>结构对，精度是 tuning 问题</td>
+      </tr>
+      <tr>
+        <td>Self-Healing</td>
+        <td>ddd_health.py 算出 score 了。但"score 低 → agent 行为变化"目前是 directive 不是 gate。</td>
+        <td>从"trust this less" → "require confirmation before relying"</td>
+      </tr>
+      <tr>
+        <td>Self-Monitoring</td>
+        <td>Post-task scan 是 AGENT.md CRITICAL rule。但时间压力下 agent 跳过了（C021/C025）。这是 honor-system。</td>
+        <td>需要 PreToolUse hook gate（类似 pytest hook blocking full suite）</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- LEVEL 3: UNIQUE INSIGHTS -->
+<section class="s">
+  <div class="eye">LEVEL 3: UNIQUE STRUCTURAL CHOICES</div>
+  <h2 class="h2" style="margin-bottom:12px">独特洞察 — 别人没做的 why</h2>
+  <p class="body" style="margin-bottom:24px">不是"我们做得更好"。是"我们做了不同的结构选择"。</p>
+
+  <div class="insight-grid">
+    <div class="insight-card">
+      <div class="insight-title">Ownership model 解决维护问题</div>
+      <div class="insight-why">11 文件 × 3 种 owner（system/user/agent）。冲突时有确定性行为。不是"谁都能编辑"。</div>
+      <div class="insight-unique">别家：所有 context 放一个文件 → 维护靠人 → 衰败</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-title">Evolution 是工程不是训练</div>
+      <div class="insight-why">Structured log → pattern extraction → rule promotion。不是 fine-tuning、不是 RLHF、不是 embedding。</div>
+      <div class="insight-unique">别家：memory = RAG retrieval。这里：evolution = behavior modification via prompt engineering</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-title">Memory sovereignty 是战略选择</div>
+      <div class="insight-why">永远不用平台 memory。自己的 pipeline、schema、lifecycle。</div>
+      <div class="insight-unique">别家：delegate to platform → vendor lock-in on 最有价值的资产</div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-title">Hooks 创造时间对称性</div>
+      <div class="insight-why">Session 结束 = extraction + cultivation + health。下次开始 = 所有结果已就位。没有"还没 sync"。</div>
+      <div class="insight-unique">别家：sessions are isolated islands。这里：session 之间是 processing</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIME DIMENSION -->
+<section class="s">
+  <div class="eye">TIME DIMENSION</div>
+  <h2 class="h2" style="margin-bottom:12px">复利的时间线</h2>
+  <p class="body" style="margin-bottom:36px">不是线性增长。是 compound。Session N+1 读到的 DDD 已经被前 N 次 REFLECT 喂过了。</p>
+
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-bar" style="height:30px"></div><div class="tl-label">Session 1</div><div class="tl-value">DDD 稀疏<br>输出泛化</div></div>
+    <div class="tl-item"><div class="tl-bar" style="height:60px"></div><div class="tl-label">Session 10</div><div class="tl-value">80+ signals<br>开始 domain-correct</div></div>
+    <div class="tl-item"><div class="tl-bar" style="height:100px"></div><div class="tl-label">Session 50</div><div class="tl-value">DDD 丰富<br>≈ 资深成员</div></div>
+    <div class="tl-item"><div class="tl-bar" style="height:160px"></div><div class="tl-label">Session 100</div><div class="tl-value">比任何单人更全<br>持续吸收所有来源</div></div>
+  </div>
+
+  <p style="font-size:14px;color:var(--text-muted);margin-top:36px;text-align:center">普通 AI 在 Session 100 的能力 = Session 1。<br>差别不是模型升级了 — 是 compound effect 在工作。</p>
+</section>
+
+<!-- HARDENING PATH SUMMARY -->
+<section class="s">
+  <div class="eye">HARDENING PATH</div>
+  <h2 class="h2" style="margin-bottom:12px">三级硬化 — 从信念到不变量</h2>
+  <p class="body" style="margin-bottom:24px">设计哲学怎么落地？逐步从信念变成代码约束。</p>
+
+  <div class="level-grid">
+    <div class="level-card level-card-accent">
+      <div class="level-num">LEVEL 3 — DONE</div>
+      <div class="level-title">Structural<br>Impossibility</div>
+      <div class="level-desc">违反不可能。<br>等价于类型系统。<br>"不编译。"</div>
+    </div>
+    <div class="level-card">
+      <div class="level-num">LEVEL 2 — WIP</div>
+      <div class="level-title">Mechanical<br>Gate</div>
+      <div class="level-desc">代码 enforce。<br>Hook 拦截。<br>精度在迭代。</div>
+    </div>
+    <div class="level-card">
+      <div class="level-num">LEVEL 1 — START</div>
+      <div class="level-title">Directive</div>
+      <div class="level-desc">文字规则。<br>靠遵守。<br>Honor system。</div>
+    </div>
+  </div>
+
+  <p style="font-size:14px;color:var(--accent);margin-top:24px;text-align:center;font-weight:500">路径是确定的。每个 Self-X 最终都要到 Level 3。<br>Self-Evolution 走了 3 个月。其余的在同一条路上。</p>
+</section>
+
+<!-- WHY MULTIPLICATION -->
+<section class="s">
+  <div class="eye">WHY 1+1+1+1 > 4</div>
+  <h2 class="h2" style="margin-bottom:24px">乘法 vs 加法</h2>
+
+  <div class="card" style="text-align:left;padding:36px;max-width:780px">
+    <p style="font-size:15px;line-height:2.2;color:var(--text-secondary)">
+      <span class="highlight">加法系统：</span>每个组件独立工作。改进一个不影响其他。<br><br>
+      <span class="highlight">乘法系统：</span>组件的输出是另一个的输入。改进一个 → 所有依赖它的组件同时变强。<br><br>
+      <span class="accent">判断标准：</span>去掉任何一个组件，其他会变弱吗？<br>
+      加法：不会。乘法：会。<br><br>
+      正向耦合 = 飞轮。负向耦合 = 脆弱。<br>
+      区别：<span class="highlight">失败是否被隔离，成功是否被传播。</span>
+    </p>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="s">
+  <div class="sep"></div>
+  <p class="quote" style="font-size:20px">"一个好的编译器不是让你写出好代码。<br>是让你<span style="color:var(--accent)">不可能写出坏代码</span>。"</p>
+
+  <div class="text-block" style="margin-top:36px">
+    <p>
+      当设计哲学变成编译器：<br>
+      Memory sovereignty 不是"建议自己管记忆" — 是代码不允许用 platform memory。<br>
+      Prevention > Recovery 不是"尽量不要挂" — 是 timeout + lock 让"挂"不存在。<br>
+      Self-Evolution 不是"记住教训" — 是 correction 自动提升为 rule 直到消除 bug class。
+    </p>
+    <p style="font-size:18px;margin-top:12px">
+      <span class="accent">一句话：不是"我们相信什么"。<br>是"用什么机制 enforce 什么不变量"。<br><br>第一层 done — 违反不可能。<br>第二层 WIP — 机制在跑，精度在提升。<br>第三层 positioning — 做了别人没做的 structural choice。</span>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  <div style="font-size:36px;margin-bottom:10px">🐝</div>
+  <div style="font-size:32px;font-weight:400;margin-bottom:6px">SwarmAI</div>
+  <div style="font-size:18px;font-weight:500;color:var(--accent);margin-bottom:24px;font-family:'Inter','Manrope',sans-serif">Human directs. AI delivers.</div>
+  <img src="/Users/gawan/Desktop/SwarmAI-Workspace/swarmai/backend/skills/s_pollinate/brand/assets/logo/qr-github-dark-on-light.png" width="96" height="96" style="border-radius:12px;display:block;margin:0 auto"/>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:10px;font-family:'SF Mono',monospace">github.com/xg-gh-25/SwarmAI</p>
+</section>
+
+<div style="padding:10px 36px;text-align:right">
+  <span style="font-size:11px;font-weight:500;color:var(--text-muted);font-family:'Inter',sans-serif;letter-spacing:0.5px;opacity:0.6">🐝 Made with SwarmAI Pollinate</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1440px;
+    background: #0a0a0f; color: #e8e8ed;
+    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    overflow: hidden; position: relative;
+  }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  .poster { position: relative; width: 100%; height: 100%; padding: 48px 44px; display: flex; flex-direction: column; z-index: 1; }
+  .badge { display: inline-block; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .title { font-size: 42px; font-weight: 900; line-height: 1.15; background: linear-gradient(135deg, #fff, #c7d2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+  .subtitle { font-size: 18px; color: #94a3b8; margin-bottom: 24px; }
+
+  /* Layers mini */
+  .layers-mini { display: flex; gap: 10px; margin-bottom: 24px; }
+  .lm { flex: 1; border-radius: 10px; padding: 12px 14px; }
+  .lm.l3 { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25); }
+  .lm.l2 { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.2); }
+  .lm.l1 { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.2); }
+  .lm-label { font-size: 12px; font-weight: 800; margin-bottom: 4px; }
+  .lm.l3 .lm-label { color: #818cf8; }
+  .lm.l2 .lm-label { color: #4ade80; }
+  .lm.l1 .lm-label { color: #fbbf24; }
+  .lm-players { font-size: 13px; color: #d1d5db; line-height: 1.4; }
+  .lm-players b { color: #fff; }
+
+  /* Matrix */
+  .matrix { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; margin-bottom: 20px; }
+  .matrix th { background: rgba(99,102,241,0.12); color: #a5b4fc; font-weight: 700; padding: 12px 8px; text-align: center; border-bottom: 2px solid rgba(99,102,241,0.25); font-size: 13.5px; letter-spacing: 0.3px; }
+  .matrix th:first-child { text-align: left; padding-left: 14px; border-radius: 8px 0 0 0; width: 13%; }
+  .matrix th:last-child { border-radius: 0 8px 0 0; }
+  .matrix td { padding: 11px 8px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); color: #d1d5db; font-weight: 500; font-size: 14px; }
+  .matrix td:first-child { text-align: left; padding-left: 14px; color: #e2e8f0; font-weight: 600; font-size: 15px; }
+  .matrix tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  .matrix tr.mem td { background: rgba(248,113,113,0.06); border-top: 1px solid rgba(248,113,113,0.15); border-bottom: 1px solid rgba(248,113,113,0.15); }
+  .g { color: #4ade80; } .y { color: #fbbf24; } .r { color: #f87171; } .gg { color: #34d399; font-weight: 700; }
+
+  /* Legend */
+  .legend { display: flex; gap: 20px; margin-bottom: 20px; font-size: 13px; color: #64748b; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.dg { background: #34d399; } .dot.dgg { background: #4ade80; } .dot.dy { background: #fbbf24; } .dot.dr { background: #f87171; }
+
+  /* Detail rows */
+  .detail-section { margin-bottom: 16px; }
+  .detail-title { font-size: 16px; font-weight: 700; color: #a5b4fc; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .detail-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; }
+  .dc-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .dc-val { font-size: 13px; line-height: 1.4; }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(99,102,241,0.2), transparent); margin: 16px 0; }
+  .watermark { position: absolute; bottom: 16px; right: 24px; font-size: 11px; color: #1f2937; }
+  .footer-note { font-size: 14px; color: #64748b; text-align: center; margin-top: auto; padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="badge">对标矩阵 · BENCHMARK</div>
+  <div class="title">Agent Harness<br>六维全景对标</div>
+  <div class="subtitle">5 玩家 × 6 维度 × 3 层级 — 基于源码实测，非 marketing 材料</div>
+
+  <!-- Mini layer bar -->
+  <div class="layers-mini">
+    <div class="lm l3"><div class="lm-label">L3 Platform</div><div class="lm-players"><b>AgentCore</b> · <b>Claude M.</b></div></div>
+    <div class="lm l2"><div class="lm-label">L2 Framework</div><div class="lm-players"><b>Hermes</b></div></div>
+    <div class="lm l1"><div class="lm-label">L1 Product</div><div class="lm-players"><b>OpenClaw</b> · <b>SwarmAI</b></div></div>
+  </div>
+
+  <!-- Matrix -->
+  <table class="matrix">
+    <thead><tr>
+      <th>维度</th><th>AgentCore</th><th>Claude M.</th><th>Hermes</th><th>OpenClaw</th><th>SwarmAI</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>自进化</td><td class="r">—</td><td class="r">—</td><td class="gg">GEPA (ICLR)</td><td class="r">—</td><td class="g">4-phase pipeline</td></tr>
+      <tr class="mem"><td>Memory 所有权</td><td class="r">🔒 云端锁定</td><td class="r">🔒 云端锁定</td><td class="y">本地 2.2K</td><td class="g">本地 vec</td><td class="gg">本地 git ✅</td></tr>
+      <tr><td>Memory 分层</td><td class="y">托管 API</td><td class="y">Append log</td><td class="y">3 层</td><td class="y">Vector</td><td class="gg">4 层 + 蒸馏</td></tr>
+      <tr><td>Context 管理</td><td class="y">基础</td><td class="y">基础</td><td class="y">2 文件</td><td class="y">配置</td><td class="gg">11 文件 P0-P10</td></tr>
+      <tr><td>Skills 生态</td><td class="y">N/A</td><td class="y">N/A</td><td class="gg">Marketplace</td><td class="g">54+</td><td class="g">61</td></tr>
+      <tr><td>多平台</td><td class="g">API</td><td class="g">API</td><td class="gg">17 channels</td><td class="y">Desktop</td><td class="y">Desktop+Slack</td></tr>
+      <tr><td>企业安全</td><td class="gg">VPC+X-Ray</td><td class="g">Sandbox</td><td class="g">6 后端隔离</td><td class="g">OS sandbox</td><td class="g">3-tier+Guard</td></tr>
+      <tr><td>项目管理</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="gg">4-doc DDD</td></tr>
+      <tr><td>自主判断</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="gg">ROI scoring</td></tr>
+    </tbody>
+  </table>
+
+  <div class="legend">
+    <span><span class="dot dg"></span> 领先</span>
+    <span><span class="dot dgg"></span> 优秀</span>
+    <span><span class="dot dy"></span> 基础</span>
+    <span><span class="dot dr"></span> 缺失</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Detail breakdowns -->
+  <div class="detail-section">
+    <div class="detail-title">🏆 各家最强维度</div>
+    <div class="detail-grid">
+      <div class="detail-card"><div class="dc-name" style="color:#818cf8">AgentCore</div><div class="dc-val g">企业安全：VPC 部署 + X-Ray 审计 + Cedar 策略</div></div>
+      <div class="detail-card"><div class="dc-name" style="color:#818cf8">Claude Managed</div><div class="dc-val g">开发体验：一周上线，zero ops</div></div>
+      <div class="detail-card"><div class="dc-name" style="color:#4ade80">Hermes</div><div class="dc-val g">自进化 GEPA + 17 平台 + Skills 市场</div></div>
+      <div class="detail-card"><div class="dc-name" style="color:#fbbf24">SwarmAI</div><div class="dc-val g">Memory 主权 + Context 工程 + 自主判断</div></div>
+    </div>
+  </div>
+
+  <div class="footer-note">数据来源：源码实测 (SwarmAI commit aa41ae1) + 官方文档 + 论文 · 2026-04</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+</div>
+</body>
+</html>

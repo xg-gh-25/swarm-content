@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080, height=1440">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  width: 1080px; height: 1440px;
+  background: #1A1A2E;
+  font-family: "PingFang SC", "Noto Sans SC", sans-serif;
+  color: #FAFAFA;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background accent */
+.bg-accent {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
+  top: -100px; right: -100px;
+}
+
+.logo {
+  font-size: 28px; font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  position: absolute; top: 50px; left: 60px;
+}
+
+.hero {
+  font-size: 72px; font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 48px;
+  z-index: 1;
+}
+.hero .accent { color: #FF6B35; }
+
+.subtitle {
+  font-size: 32px; font-weight: 400;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  margin-bottom: 64px;
+  z-index: 1;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  z-index: 1;
+}
+
+.compare-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex; align-items: center; gap: 16px;
+}
+
+.compare-item .icon { font-size: 40px; }
+.compare-item .text {
+  font-size: 24px; font-weight: 500;
+  line-height: 1.5;
+}
+.compare-item .text .dim { color: rgba(255,255,255,0.5); }
+.compare-item .text .bright { color: #FF6B35; font-weight: 700; }
+
+.bottom-bar {
+  position: absolute;
+  bottom: 50px;
+  left: 60px; right: 60px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.brand {
+  font-size: 24px; font-weight: 600;
+  color: #FF6B35;
+}
+
+.tag {
+  font-size: 20px;
+  color: rgba(255,255,255,0.4);
+}
+</style>
+</head>
+<body>
+  <div class="bg-accent"></div>
+  <div class="logo">🐝 Swarm</div>
+
+  <div class="hero">
+    <span class="accent">AI 记忆</span> &gt; AI 模型
+  </div>
+
+  <div class="subtitle">
+    为什么你的 AI 助手换个模型就失忆？
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-item">
+      <div class="icon">🔄</div>
+      <div class="text">
+        <div class="dim">模型年年换</div>
+        <div class="bright">记忆只增不减</div>
+      </div>
+    </div>
+    <div class="compare-item">
+      <div class="icon">🔒</div>
+      <div class="text">
+        <div class="dim">平台锁定你</div>
+        <div class="bright">自主记忆归你</div>
+      </div>
+    </div>
+    <div class="compare-item">
+      <div class="icon">💰</div>
+      <div class="text">
+        <div class="dim">模型是成本</div>
+        <div class="bright">记忆是资产</div>
+      </div>
+    </div>
+    <div class="compare-item">
+      <div class="icon">🧠</div>
+      <div class="text">
+        <div class="dim">长上下文 ≠ 长记忆</div>
+        <div class="bright">累积 > 窗口</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand">🐝 Swarm · AI 实践者</div>
+    <div class="tag">#AI记忆 #数据主权</div>
+  </div>
+</body>
+</html>

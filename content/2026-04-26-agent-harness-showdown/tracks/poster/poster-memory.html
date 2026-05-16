@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1440px;
+    background: #0a0a0f; color: #e8e8ed;
+    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    overflow: hidden; position: relative;
+  }
+  body::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(248,113,113,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(248,113,113,0.02) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  body::after {
+    content: ''; position: absolute; bottom: -200px; left: -200px; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(248,113,113,0.1) 0%, transparent 70%); pointer-events: none;
+  }
+  .poster { position: relative; width: 100%; height: 100%; padding: 52px 56px; display: flex; flex-direction: column; z-index: 1; }
+
+  .badge { display: inline-block; background: linear-gradient(135deg, #ef4444, #f97316); color: #fff; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 20px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+  .title { font-size: 48px; font-weight: 900; line-height: 1.15; color: #fff; margin-bottom: 8px; }
+  .title .em { background: linear-gradient(135deg, #f87171, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { font-size: 22px; color: #94a3b8; line-height: 1.5; margin-bottom: 32px; }
+  .subtitle b { color: #e2e8f0; }
+
+  /* Comparison cards */
+  .compare-section { margin-bottom: 28px; }
+  .compare-label { font-size: 15px; font-weight: 700; color: #64748b; margin-bottom: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .comp-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 22px; border-radius: 14px; margin-bottom: 10px;
+    transition: all 0.2s;
+  }
+  .comp-row .icon { font-size: 28px; flex-shrink: 0; width: 36px; text-align: center; }
+  .comp-row .name { font-size: 20px; font-weight: 700; color: #fff; min-width: 170px; }
+  .comp-row .desc { font-size: 17px; flex: 1; line-height: 1.4; }
+  .comp-row .verdict { font-size: 15px; font-weight: 700; min-width: 90px; text-align: right; }
+
+  .comp-row.locked { background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.15); }
+  .comp-row.locked .desc { color: #f87171; }
+  .comp-row.locked .verdict { color: #f87171; }
+
+  .comp-row.limited { background: rgba(251,191,36,0.05); border: 1px solid rgba(251,191,36,0.12); }
+  .comp-row.limited .desc { color: #fbbf24; }
+  .comp-row.limited .verdict { color: #fbbf24; }
+
+  .comp-row.free { background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.12); }
+  .comp-row.free .desc { color: #4ade80; }
+  .comp-row.free .verdict { color: #4ade80; }
+
+  .comp-row.best { background: rgba(34,211,153,0.08); border: 1px solid rgba(34,211,153,0.2); }
+  .comp-row.best .desc { color: #34d399; font-weight: 600; }
+  .comp-row.best .verdict { color: #34d399; }
+
+  /* Divider */
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(248,113,113,0.2), transparent); margin: 24px 0; }
+
+  /* Quotes */
+  .quote-block { border-left: 3px solid rgba(99,102,241,0.4); padding: 16px 22px; margin-bottom: 14px; background: rgba(99,102,241,0.03); border-radius: 0 10px 10px 0; }
+  .qt { font-size: 18px; font-style: italic; color: #c7d2fe; line-height: 1.45; }
+  .qa { font-size: 14px; color: #64748b; margin-top: 6px; }
+
+  /* Flow */
+  .flow { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 16px; color: #94a3b8; margin: 20px 0; flex-wrap: wrap; }
+  .flow .arr { color: #f87171; font-weight: 700; }
+  .flow .node { color: #e2e8f0; font-weight: 600; }
+
+  /* CTA */
+  .cta { margin-top: auto; text-align: center; }
+  .cta-text { font-size: 30px; font-weight: 900; line-height: 1.35; background: linear-gradient(135deg, #f87171, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .cta-sub { font-size: 17px; color: #64748b; margin-top: 10px; }
+
+  .watermark { position: absolute; bottom: 16px; right: 24px; font-size: 11px; color: #1f2937; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="badge">🚨 核心观点 · CORE INSIGHT</div>
+  <div class="title">Memory 才是<br><span class="em">真正的战场</span></div>
+  <div class="subtitle">模型可以换，工具可以换，编排可以换。<br>但<b>记忆</b>——工作习惯、项目上下文、历史决策——是<b>时间的结晶，不可重建。</b></div>
+
+  <!-- Comparison -->
+  <div class="compare-section">
+    <div class="compare-label">五大玩家 Memory 所有权</div>
+    <div class="comp-row locked">
+      <div class="icon">🔒</div>
+      <div class="name">AgentCore</div>
+      <div class="desc">托管 Memory API，无法导出</div>
+      <div class="verdict">云端锁定</div>
+    </div>
+    <div class="comp-row locked">
+      <div class="icon">🔒</div>
+      <div class="name">Claude Managed</div>
+      <div class="desc">Append-only session log，无法导出</div>
+      <div class="verdict">云端锁定</div>
+    </div>
+    <div class="comp-row limited">
+      <div class="icon">🔓</div>
+      <div class="name">Hermes</div>
+      <div class="desc">本地 MEMORY.md，但硬限 2.2K chars</div>
+      <div class="verdict">有限可迁</div>
+    </div>
+    <div class="comp-row free">
+      <div class="icon">🔓</div>
+      <div class="name">OpenClaw</div>
+      <div class="desc">本地 vector embeddings，可迁移</div>
+      <div class="verdict">可迁移</div>
+    </div>
+    <div class="comp-row best">
+      <div class="icon">✅</div>
+      <div class="name">SwarmAI</div>
+      <div class="desc">本地 git + 4 层蒸馏 + 完全可迁移</div>
+      <div class="verdict">完全自主</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Quotes -->
+  <div class="quote-block">
+    <div class="qt">"Harness is plumbing, moat is proprietary data."</div>
+    <div class="qa">— João Moura, CrewAI 创始人 (2026-04-14)</div>
+  </div>
+  <div class="quote-block">
+    <div class="qt">"邮件助手被删除后重建，体验断崖式下降。不是模型变差了，是记忆没了。"</div>
+    <div class="qa">— Harrison Chase, LangChain 创始人</div>
+  </div>
+
+  <!-- Lock-in flow -->
+  <div class="flow">
+    <span class="node">时间越长</span><span class="arr">→</span>
+    <span class="node">记忆越深</span><span class="arr">→</span>
+    <span class="node">越好用</span><span class="arr">→</span>
+    <span class="node">越离不开</span><span class="arr">→</span>
+    <span class="node">迁移成本越高</span><span class="arr">→</span>
+    <span class="arr" style="font-size:18px">lock-in</span>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-text">选框架前先问：<br>我的记忆存在哪？我能带走吗？</div>
+    <div class="cta-sub">模型会迭代，框架会洗牌，只有记忆是真正的复利。</div>
+  </div>
+
+  <div class="watermark">Swarm Intelligence · 2026</div>
+</div>
+</body>
+</html>

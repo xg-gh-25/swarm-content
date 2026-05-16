@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- D5 Morandi — Compound Agent Intelligence 深度长文章 -->
+<style>
+:root {
+  --bg-deep: #F2EDE8;
+  --bg-elevated: #FFFFFF;
+  --border: rgba(180,160,140,0.12);
+  --accent: #B08D6B;
+  --accent-dim: rgba(176,141,107,0.10);
+  --accent-secondary: #7B9E89;
+  --text-primary: #3D3530;
+  --text-secondary: rgba(61,53,48,0.65);
+  --text-muted: rgba(61,53,48,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;background:var(--bg-deep);font-family:"Noto Sans SC","PingFang SC",sans-serif;color:var(--text-primary);-webkit-font-smoothing:antialiased}
+.s{padding:72px 80px;text-align:center}
+.hero{padding:96px 80px 60px;text-align:center;border-bottom:1px solid var(--border)}
+.h1{font-size:42px;font-weight:500;line-height:1.3;max-width:800px;margin:0 auto}
+.eye{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-family:"Inter",monospace}
+.sep{height:1px;width:120px;margin:36px auto;background:var(--border)}
+/* Article */
+.article{max-width:720px;margin:0 auto;text-align:left}
+.article p{font-size:17px;line-height:2.4;color:var(--text-secondary);margin-bottom:28px}
+.article .lead{font-size:19px;line-height:2.2;color:var(--text-primary);font-weight:400}
+.article .highlight{color:var(--text-primary);font-weight:500}
+.article .accent{color:var(--accent);font-weight:600}
+.article .pullquote{font-size:20px;font-style:italic;font-weight:500;color:var(--text-primary);border-left:3px solid var(--accent);padding:16px 24px;margin:36px 0;line-height:1.8;background:var(--accent-dim);border-radius:0 12px 12px 0}
+.article .code-ref{font-family:"SF Mono",monospace;font-size:13px;color:var(--text-muted);background:var(--bg-elevated);padding:2px 8px;border-radius:4px;border:1px solid var(--border)}
+.article h3{font-size:22px;font-weight:500;margin:60px 0 20px;color:var(--text-primary)}
+.article .section-num{font-size:12px;font-weight:600;color:var(--accent);font-family:"Inter",monospace;letter-spacing:2px;display:block;margin-bottom:8px}
+/* Colored section breaks */
+.g1{background:linear-gradient(160deg,#E8DDD4,#F5EDE5);border-radius:20px;padding:36px 40px;max-width:720px;margin:24px auto}
+.g2{background:linear-gradient(160deg,#DDE8D4,#EDF5E5);border-radius:20px;padding:36px 40px;max-width:720px;margin:24px auto}
+.g3{background:linear-gradient(160deg,#D4DDE8,#E5EDF5);border-radius:20px;padding:36px 40px;max-width:720px;margin:24px auto}
+.g4{background:linear-gradient(160deg,#E8D4DD,#F5E5ED);border-radius:20px;padding:36px 40px;max-width:720px;margin:24px auto}
+.g5{background:linear-gradient(160deg,#E8E4D4,#F5F1E5);border-radius:20px;padding:36px 40px;max-width:720px;margin:24px auto}
+.gx-title{font-size:16px;font-weight:600;margin-bottom:8px}
+.gx-body{font-size:15px;color:var(--text-secondary);line-height:2.0}
+.gx-code{font-family:"SF Mono",monospace;font-size:12px;color:var(--text-muted);margin-top:8px}
+/* Inline table */
+.inline-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px}
+.inline-table th{text-align:left;padding:12px 14px;border-bottom:1.5px solid var(--border);color:var(--accent);font-weight:600;font-size:13px;letter-spacing:0.5px}
+.inline-table td{padding:12px 14px;border-bottom:0.5px solid var(--border);color:var(--text-secondary);line-height:1.7;vertical-align:top}
+.inline-table td:first-child{font-weight:500;color:var(--text-primary);white-space:nowrap;width:100px}
+/* Footer */
+.footer{padding:72px 80px;text-align:center;background:linear-gradient(180deg,var(--bg-deep),#EBE6E0)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eye">DEEP DIVE · DESIGN PHILOSOPHY</div>
+  <h1 class="h1">当设计哲学变成编译器</h1>
+  <p style="font-size:20px;color:var(--text-secondary);margin-top:12px">Compound Agent Intelligence — 为什么 1+1+1+1 > 4</p>
+  <p style="font-size:13px;color:var(--text-muted);margin-top:20px">阅读时间 ~8 分钟 · 设计哲学系列 · 收束篇</p>
+</section>
+
+<!-- INTRO -->
+<section class="s">
+  <div class="article">
+    <p class="lead">
+      这篇文章回答一个问题：一个 AI agent 系统的设计哲学，怎么从"团队共识"变成"代码约束"？以及，为什么这件事比任何单个 feature 都重要？
+    </p>
+    <p>
+      SwarmAI 的设计沿四条线展开：一个自主交付引擎（Pipeline），一个内容生产引擎（Pollinate），一套自生长的知识系统（DDD），和一个让 AI 有连续性的基座层（Agent Harness）。
+    </p>
+    <p>
+      每个单独拿出来都能讲。但这篇不讲它们各自怎么工作。这篇讲的是：<span class="accent">它们之间的关系为什么是乘法而不是加法</span>，以及背后的设计哲学怎么从一句话变成了等价于类型系统的 enforcement。
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 1 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">01</span>
+    <h3>复利的前提：正向循环存在</h3>
+
+    <p>
+      一个系统的复利来自哪里？不是来自每个组件都好。来自组件之间存在<span class="highlight">正向反馈循环</span>。
+    </p>
+
+    <p>具体来说，三条循环在运转：</p>
+
+    <div class="g2" style="text-align:left">
+      <div class="gx-title">Loop 1: Code Compound — Pipeline × DDD</div>
+      <div class="gx-body">Pipeline 读 DDD 来做 domain-correct 判断 → 交付完成后 REFLECT 写回 lessons → DDD 变更丰富 → 下次 Pipeline 判断更准。</div>
+    </div>
+
+    <div class="g4" style="text-align:left">
+      <div class="gx-title">Loop 2: Content Compound — Pollinate × DDD</div>
+      <div class="gx-body">Pollinate 读 DDD 来获取 brand voice 和 positioning → 内容产出后 REFLECT 写回 audience insights → DDD 更了解受众 → 下次内容更精确。</div>
+    </div>
+
+    <div class="g3" style="text-align:left">
+      <div class="gx-title">Loop 3: Evolution Compound — Harness × Everything</div>
+      <div class="gx-body">任何 session 犯错 → Correction 写入 EVOLUTION.md → 同类反复出现 → 自动提升为 STEERING 规则 → 行为永久改变 → 整个 class of bugs 从系统中消失。</div>
+    </div>
+
+    <p style="margin-top:28px">
+      三条循环独立运转。但它们共享同一个知识层（DDD）和同一个记忆基础设施（Harness）。Pipeline 学到的 lesson 存进 DDD 后，Pollinate 也能读到。一次学习，所有引擎受益。
+    </p>
+    <p>
+      <span class="accent">这就是"为什么 1+1+1+1 > 4"的答案：不是每个部分好。是部分之间有正向循环。</span>去掉任何一个组件，其他组件会变弱 — 这是乘法系统的判断标准。
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">02</span>
+    <h3>三级硬化：从 belief 到 enforcement</h3>
+
+    <p>
+      大多数团队的"设计哲学"是 README 里的一句话。团队同意了，然后靠人遵守。有人忘了就提醒。提醒多了变成"文化问题"。
+    </p>
+    <p>
+      这是 Level 1 — Directive。文字规则，honor system。时间压力下一定会被跳过。
+    </p>
+    <p>
+      另一条路：把哲学逐步硬化为代码约束。三个 level：
+    </p>
+
+    <table class="inline-table">
+      <tr><th>Level</th><th>含义</th><th>等价物</th></tr>
+      <tr><td>Level 1</td><td>Directive — 文字规则，靠人遵守</td><td>代码注释 "// don't do X"</td></tr>
+      <tr><td>Level 2</td><td>Mechanical Gate — 代码拦截，hook enforce</td><td>Linter rule（warning → error）</td></tr>
+      <tr><td>Level 3</td><td>Structural Impossibility — 违反不可能</td><td>类型系统（不编译）</td></tr>
+    </table>
+
+    <p>
+      关键 insight：<span class="highlight">Level 3 的约束不是"更严格的规则"。是"做错的代码路径物理上不存在"。</span>
+    </p>
+
+    <p>举一个已经走完全程的例子 — Self-Evolution：</p>
+
+    <div class="g5" style="text-align:left">
+      <div class="gx-title">Self-Evolution 的硬化路径（3 个月）</div>
+      <div class="gx-body">
+        <strong>Level 1（3 个月前）：</strong>"从错误中学习" 是 AGENT.md 里的 directive。实际上经常忘记。<br><br>
+        <strong>Level 2（2 个月前）：</strong>加了 <code>evolution_maintenance_hook.py</code> — session 结束时自动检测 correction pattern，自动写入 EVOLUTION.md。不需要人记得。<br><br>
+        <strong>Level 3（1 个月前）：</strong>加了 <code>s_steeringify</code> — 同类 correction 重复出现时，自动提升为 STEERING.md 永久规则。不是"AI 记住了不做 X"，是"做 X 的行为在 prompt 层面被规则阻断了"。
+      </div>
+    </div>
+
+    <p style="margin-top:28px">
+      <span class="accent">从"请记住"到"不可能忘"。这就是设计哲学变成编译器的意思。</span>
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">03</span>
+    <h3>已经到 Level 3 的四条哲学</h3>
+
+    <p>不是所有设计哲学都已经硬化到 Level 3。但以下四条已经做到了"违反不可能"：</p>
+
+    <div class="g1" style="text-align:left">
+      <div class="gx-title">Self-Context — Ownership 模型</div>
+      <div class="gx-body">System 文件（SWARMAI.md, AGENT.md）每次启动从代码模板覆写。编辑了运行时的 .context/AGENT.md？下次启动就丢了。不是"请不要编辑"— 是 ensure_directory() 无条件覆写。Agent 文件用 locked_write.py 并发保护 — 多个 session 同时写不会互相覆盖。冲突时有确定性行为，不是竞态条件。</div>
+      <div class="gx-code">context_directory_loader.py · locked_write.py</div>
+    </div>
+
+    <div class="g2" style="text-align:left">
+      <div class="gx-title">Self-Memory — 代码驱动的逐级提纯</div>
+      <div class="gx-body">DailyActivity 有 30 天 TTL（代码删除，不是人工清理）。Distillation hook 自动将 recurring themes 提升到 MEMORY.md（代码提升，不是人工总结）。DDD cultivation 自动将 project-relevant insights 提案到项目文档（代码提案，人只审批）。每一层都是代码驱动 — 不存在"忘记维护"的可能。</div>
+      <div class="gx-code">distillation_hook.py · ddd_cultivation.py</div>
+    </div>
+
+    <div class="g3" style="text-align:left">
+      <div class="gx-title">Self-Evolution — 结构性消除 bug class</div>
+      <div class="gx-body">从 C001 到 C025，每条 correction 有 root cause 和 structural fix。evolution_maintenance_hook.py 自动检测 pattern。s_steeringify 自动提升为 STEERING rule。不是 fine-tuning，不是 RLHF，不是 embedding retrieval。是 prompt engineering 层面的 behavior modification — 代码路径，不是人工判断。</div>
+      <div class="gx-code">evolution_maintenance_hook.py · s_steeringify</div>
+    </div>
+
+    <div class="g4" style="text-align:left">
+      <div class="gx-title">Prevention > Recovery — 代码结构即安全网</div>
+      <div class="gx-body">asyncio.Lock 序列化 spawn。GIT_TIMEOUT=10 防止 hang。intentional_shutdown flag 区分"主动退出"和"被杀"。Rust 层用 #[cfg(target_os)] 编译时隔离 — 运行时不存在另一条路径。挂不了不是因为"规则说别挂"— 是 structurally impossible。</div>
+      <div class="gx-code">asyncio.Lock · GIT_TIMEOUT · intentional_shutdown · Rust #[cfg]</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">04</span>
+    <h3>Hardening 的中间态 — Level 2 是 pattern 不是缺陷</h3>
+
+    <p>Hardening 是渐进的。Level 2（机制在跑，精度在迭代）是 pattern 的中间态，不是终态。以下三条体现了这个 pattern：</p>
+
+    <div class="g5" style="text-align:left">
+      <div class="gx-title">Self-Feedback — 结构对，精度在 tuning</div>
+      <div class="gx-body">Hook 每个 session 都跑。但 LLM extraction 的 signal/noise ratio 不稳定。有时提取的是"读了 runtime_hooks.py"（shape），而不是"发现了 corrections_count 在 3 个 hook 里都 increment"（substance）。</div>
+    </div>
+
+    <div class="g5" style="text-align:left">
+      <div class="gx-title">Self-Healing — 从 directive 到 gate</div>
+      <div class="gx-body">ddd_health.py 214 行，health score 算出来了。但"score 低 → agent 行为变化" 目前是 directive 不是 gate。AGENT.md 写着"trust this section less" — 但没有代码阻止 agent 全信一个 score=30 的 section。需要升级到"require confirmation before relying on low-health section"。</div>
+    </div>
+
+    <div class="g5" style="text-align:left">
+      <div class="gx-title">Self-Monitoring — honor-system 的本质弱点</div>
+      <div class="gx-body">Post-task scan 是 AGENT.md CRITICAL rule。但 C021 和 C025 证明了：时间压力下会跳过。需要 PreToolUse hook gate — 类似 pytest hook 阻止跑 full suite 那样，检测"多文件编辑但没有 pipeline artifact"→ 告警。</div>
+    </div>
+
+    <p style="margin-top:28px">
+      三个的共同 pattern：<span class="accent">"from directive to gate"</span> — 文字规则 → 代码强制。Hardening 是渐进的 — 每条哲学从 belief 开始，经过 directive，经过 gate，最终到 structural impossibility。Self-Evolution 证明了这条路径走得通。
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">05</span>
+    <h3>四个独特的结构选择</h3>
+
+    <p>不是"做得更好"。是"做了不同的结构选择"：</p>
+
+    <div class="g1" style="text-align:left">
+      <div class="gx-title">① Ownership model 解决维护问题</div>
+      <div class="gx-body">11 个文件有 3 种 owner（system / user / agent），冲突时有确定性行为。不是"谁都能编辑 CLAUDE.md 然后祈祷不会乱"。Ownership 让每方维护自己最擅长维护的东西 — 这是"不腐败"的结构保证。</div>
+    </div>
+
+    <div class="g2" style="text-align:left">
+      <div class="gx-title">② Evolution 是工程不是训练</div>
+      <div class="gx-body">C001-C025 是 structured log → pattern extraction → rule promotion。不是 fine-tuning（需要 GPU），不是 RLHF（需要 reward model），不是 embedding（需要 vector DB）。是 prompt engineering as behavior modification。成本：零额外 LLM 调用。效果：永久行为改变。大多数"AI memory"系统只是 RAG retrieval — 回忆过去，但不改变未来行为。Evolution 反过来：改变未来行为，让过去的错误在结构上不可能重复。</div>
+    </div>
+
+    <div class="g3" style="text-align:left">
+      <div class="gx-title">③ Memory sovereignty 是战略选择</div>
+      <div class="gx-body">永远不用平台 memory（Claude Memory, GPT Memory, Gemini Memory）。自己的 pipeline, schema, lifecycle。Memory 是最有价值的资产。委托给平台 = 护城河交给别人管理。Platform 可以改 schema、改 lifecycle、改 access pattern。自主权不是技术偏好 — 是战略选择。</div>
+    </div>
+
+    <div class="g4" style="text-align:left">
+      <div class="gx-title">④ Hooks 创造时间对称性</div>
+      <div class="gx-body">大多数 AI 系统：session 结束 = 一切消失。Sessions 是孤岛。SwarmAI 的设计：session 结束 = 9 个 hooks 异步工作（extract, cultivate, evolve, refresh...）。下次 session 开始 = 所有结果已就位。没有"还没 sync"的时间窗口。Session 之间不是 void — 是系统最忙的时候。</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">06</span>
+    <h3>时间线：compound 的具象化</h3>
+
+    <p>
+      Session 1 — DDD 是空的。Agent 读到的项目知识为零。输出泛化，domain-correct rate ~40%。
+    </p>
+    <p>
+      Session 10 — 8 个 feed channels 已注入 80+ signals。Agent 开始做 domain-correct 判断。
+    </p>
+    <p>
+      Session 50 — DDD 丰富到 200+ lessons。Agent 的输出与一个在项目上工作了半年的资深成员无异。
+    </p>
+    <p>
+      Session 100 — Agent 知道的比任何单个人更全面。因为它持续吸收了所有来源：每次 commit（Ch1），每次研究（Ch2），每次 pipeline run（Ch3），每次行业信号（Ch4），每次对话（Ch5），每次纠正（Ch6），每次代码分析（Ch7）。
+    </p>
+    <p>
+      <span class="accent">一个普通 AI agent 在 Session 100 的能力 = Session 1。差别不是模型升级 — 是 compound effect 在工作。</span>
+    </p>
+  </div>
+</section>
+
+<!-- SECTION 7 -->
+<section class="s">
+  <div class="article">
+    <span class="section-num">07</span>
+    <h3>一句话总结</h3>
+
+    <div class="article pullquote">
+      "一个好的编译器不是让你写出好代码。是让你不可能写出坏代码。"
+    </div>
+
+    <p>
+      SwarmAI 的设计哲学不是"相信什么"。是"用什么机制 enforce 什么不变量"。
+    </p>
+    <p>
+      第一层 done — 违反不可能。四条哲学已经是代码约束。<br>
+      第二层 WIP — 机制在跑，精度在提升。路径清晰。<br>
+      第三层 positioning — 做了别人没做的 structural choice。
+    </p>
+    <p>
+      <span class="accent">当设计哲学变成编译器，compound 就不再是愿景。是正在发生的事。</span>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  <div style="font-size:40px;margin-bottom:12px">🐝</div>
+  <div style="font-size:34px;font-weight:600;margin-bottom:6px">SwarmAI</div>
+  <div style="font-size:19px;font-weight:500;color:var(--accent);margin-bottom:28px;font-family:'Manrope','Inter',sans-serif">Human directs. AI delivers.</div>
+  <img src="/Users/gawan/Desktop/SwarmAI-Workspace/swarmai/backend/skills/s_pollinate/brand/assets/logo/qr-github-dark-on-light.png" width="100" height="100" style="border-radius:12px;display:block;margin:0 auto"/>
+  <p style="font-size:13px;color:var(--text-muted);margin-top:12px;font-family:'SF Mono',monospace">github.com/xg-gh-25/SwarmAI</p>
+</section>
+
+<div style="padding:12px 36px;text-align:right">
+  <span style="font-size:11px;font-weight:500;color:var(--text-muted);font-family:'Manrope','Inter',sans-serif;letter-spacing:0.5px;opacity:0.6">🐝 Made with SwarmAI Pollinate</span>
+</div>
+</body>
+</html>

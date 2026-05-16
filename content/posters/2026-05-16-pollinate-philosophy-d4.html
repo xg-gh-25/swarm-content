@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- Direction: D4 Neon (霓虹) | Version: 2 (tight spacing, center-aligned) -->
+<style>
+:root {
+  --bg-deep: #0D1117;
+  --bg-elevated: #161B22;
+  --bg-surface: rgba(56,189,248,0.03);
+  --border: rgba(56,189,248,0.12);
+  --accent: #38BDF8;
+  --accent-dim: rgba(56,189,248,0.10);
+  --accent-secondary: #F472B6;
+  --text-primary: #E2E8F0;
+  --text-secondary: rgba(226,232,240,0.7);
+  --text-muted: rgba(226,232,240,0.4);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1080px;
+  background: var(--bg-deep);
+  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", sans-serif;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+.s { padding: 48px 80px; text-align: center; }
+.s-hero { padding: 96px 80px 48px; }
+.headline { font-size: 52px; font-weight: 700; line-height: 1.3; max-width: 800px; margin: 0 auto; }
+.body { font-size: 22px; line-height: 1.9; color: var(--text-secondary); max-width: 700px; margin: 0 auto; text-align: center; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; font-family: "JetBrains Mono", "SF Mono", monospace; }
+.pill { display: inline-block; background: var(--accent-dim); color: var(--accent); padding: 6px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; margin: 4px 6px; border: 1px solid var(--border); clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+.pill-m { background: rgba(244,114,182,0.10); color: var(--accent-secondary); border-color: rgba(244,114,182,0.2); }
+.card { background: var(--bg-elevated); border-radius: 8px; padding: 48px; border: 1px solid var(--border); box-shadow: 0 0 20px rgba(56,189,248,0.05); max-width: 920px; margin: 0 auto; }
+.glow-card { background: var(--bg-elevated); border: 1px solid var(--accent); border-radius: 8px; padding: 36px; box-shadow: 0 0 24px rgba(56,189,248,0.12); max-width: 700px; margin: 0 auto; }
+.sep { height: 1px; max-width: 200px; margin: 0 auto; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+.quote { font-size: 28px; font-weight: 700; line-height: 1.5; max-width: 700px; margin: 0 auto; }
+.num { font-size: 28px; font-weight: 700; color: var(--accent); font-family: "JetBrains Mono", monospace; }
+.p-row { display: flex; align-items: center; gap: 20px; max-width: 700px; margin: 0 auto 24px; text-align: left; }
+.p-txt h3 { font-size: 20px; font-weight: 600; }
+.p-txt p { font-size: 17px; line-height: 1.7; color: var(--text-secondary); }
+.flow-step { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-align: center; }
+.flow-step strong { color: var(--accent); }
+.arrow { text-align: center; color: var(--accent); font-size: 18px; margin: 4px 0; }
+.arch { background: var(--bg-elevated); border-radius: 8px; padding: 48px 36px; border: 1px solid var(--border); max-width: 920px; margin: 0 auto; }
+.a-layer { background: var(--bg-deep); border: 1px solid var(--border); border-radius: 6px; padding: 14px 20px; margin: 8px 0; text-align: center; }
+.a-layer-a { border-color: var(--accent); box-shadow: 0 0 12px rgba(56,189,248,0.15); }
+.a-layer h4 { font-size: 16px; font-weight: 600; }
+.a-layer p { font-size: 13px; color: var(--text-secondary); }
+.a-row { display: flex; gap: 10px; }
+.a-row > div { flex: 1; }
+.footer { padding: 72px 80px 48px; text-align: center; border-top: 1px solid var(--border); }
+/* HUD decoration */
+.hud { font-size: 11px; font-family: "JetBrains Mono", monospace; color: var(--text-muted); letter-spacing: 1px; }
+/* Scan lines */
+body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(56,189,248,0.01) 2px, rgba(56,189,248,0.01) 4px); pointer-events: none; z-index: 1000; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="s-hero">
+  <div class="hud" style="margin-bottom: 24px;">// POLLINATE_v2.0 :: CONTENT_ENGINE</div>
+  <h1 class="headline">内容平权</h1>
+  <p style="font-size: 24px; color: var(--text-secondary); margin-top: 16px;">
+    一个人也能做出团队级别的内容
+  </p>
+  <div style="margin-top: 36px;">
+    <span class="pill">设计哲学</span>
+    <span class="pill pill-m">方法论</span>
+    <span class="pill">架构</span>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="s">
+  <div class="sep" style="margin-bottom: 48px;"></div>
+  <p class="quote">"好内容不是写出来的，<br>是<span style="color: var(--accent);">约束</span>出来的。"</p>
+  <p class="hud" style="margin-top: 16px;">— POLLINATE.DESIGN_PHILOSOPHY</p>
+</section>
+
+<!-- PROBLEM -->
+<section class="s">
+  <div class="glow-card">
+    <div class="hud" style="margin-bottom: 16px;">// PROBLEM_STATEMENT</div>
+    <h2 style="font-size: 28px; font-weight: 700; line-height: 1.4; margin-bottom: 16px; text-align: center;">
+      个人创作者的内容<br>为什么总是"差一点"？
+    </h2>
+    <p class="body" style="font-size: 18px;">
+      不是想法不好。是没有设计系统、没有品牌一致性、没有质量门禁。
+    </p>
+    <p style="font-size: 20px; font-weight: 700; margin-top: 24px; text-align: center; color: var(--accent);">
+      内容平权 = 一个人的输出，团队的品质。
+    </p>
+  </div>
+</section>
+
+<!-- 5 PRINCIPLES -->
+<section class="s">
+  <div class="hud" style="margin-bottom: 12px;">// DESIGN_PRINCIPLES [5]</div>
+  <h2 class="headline" style="font-size: 36px; margin-bottom: 36px;">五个设计原则</h2>
+
+  <div class="p-row"><span class="num">01</span><div class="p-txt"><h3>约束即品味</h3><p>32 条视觉禁令 + 13 条结构禁令。平庸不可能通过。</p></div></div>
+  <div class="p-row"><span class="num">02</span><div class="p-txt"><h3>命名方向，不是自由发挥</h3><p>5 个方向，每个有完整色彩/排版/情绪。AI 在约束内创作。</p></div></div>
+  <div class="p-row"><span class="num">03</span><div class="p-txt"><h3>语义 Token 驱动</h3><p>用 purpose 命名颜色。切换方向 = 换 Token，零成本。</p></div></div>
+  <div class="p-row"><span class="num">04</span><div class="p-txt"><h3>一份内容，多格式输出</h3><p>同一 message → 小红书 / OG / Story / 长图。</p></div></div>
+  <div class="p-row" style="margin-bottom: 0;"><span class="num">05</span><div class="p-txt"><h3>中文优先，双语默认</h3><p>标点压缩、CJK 间距、两端对齐 — 中文是第一公民。</p></div></div>
+</section>
+
+<!-- METHOD -->
+<section class="s">
+  <div class="hud" style="margin-bottom: 12px;">// PIPELINE_FLOW</div>
+  <h2 class="headline" style="font-size: 36px; margin-bottom: 36px;">一句话到成品</h2>
+
+  <div style="max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px;">
+    <div class="flow-step"><strong>INPUT</strong>　一个想法 / 一段文字 / 一个 URL</div>
+    <div class="arrow">↓</div>
+    <div class="flow-step"><strong>SYSTEM</strong>　内容原则 → 方向选择 → Anti-Slop → 平台适配 → 品牌验证</div>
+    <div class="arrow">↓</div>
+    <div class="flow-step"><strong>OUTPUT</strong>　海报 · 长图 · 视频 · 叙事 — 品牌一致，可直接发布</div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="s">
+  <div class="hud" style="margin-bottom: 12px;">// SYSTEM_ARCHITECTURE</div>
+  <h2 class="headline" style="font-size: 36px; margin-bottom: 12px;">Pollinate 架构</h2>
+  <p class="body" style="font-size: 17px; margin-bottom: 36px;">一个知识层，多个输出引擎。知识从工作中自己生长。</p>
+
+  <div class="arch">
+    <div class="a-layer" style="border-color: var(--text-muted);"><h4>📝 Input</h4><p>一句话 / 一段文字 / 一个 URL</p></div>
+    <div class="arrow">↓</div>
+    <div class="a-layer a-layer-a"><h4>🧠 DDD Knowledge</h4><p>PRODUCT · TECH · IMPROVEMENT · THESIS</p></div>
+    <div class="arrow">↓</div>
+    <div class="a-layer"><h4>🎨 Design Intelligence</h4><p>5 方向 × 11 Token × Anti-Slop × Platform-Adaptive</p></div>
+    <div class="arrow">↓</div>
+    <div class="a-row">
+      <div class="a-layer"><h4>🖼️ 海报</h4></div>
+      <div class="a-layer" style="border-color: var(--accent-secondary);"><h4>🎬 视频</h4></div>
+      <div class="a-layer"><h4>📖 叙事</h4></div>
+    </div>
+    <div class="arrow">↓</div>
+    <div class="a-layer"><h4>📱 Multi-Platform</h4><p>小红书 · 微信 · Twitter · B站 · YouTube</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  <div style="font-size: 42px; margin-bottom: 16px;">🐝</div>
+  <div style="font-size: 36px; font-weight: 700; margin-bottom: 8px;">SwarmAI</div>
+  <div style="font-size: 20px; font-weight: 600; color: var(--accent); margin-bottom: 36px; font-family: 'JetBrains Mono', monospace;">Human directs. AI delivers.</div>
+  <img src="/Users/gawan/Desktop/SwarmAI-Workspace/swarmai/backend/skills/s_pollinate/brand/assets/logo/qr-github-light-on-dark.png" width="110" height="110" style="border-radius: 8px; display: block; margin: 0 auto;" />
+  <p style="font-size: 14px; color: var(--text-muted); margin-top: 16px; font-family: 'JetBrains Mono', monospace;">github.com/xg-gh-25/SwarmAI</p>
+</section>
+
+<!-- WATERMARK -->
+<div style="padding: 16px 36px; text-align: right;">
+  <span style="font-size: 12px; font-weight: 500; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; opacity: 0.6;">🐝 Made with SwarmAI Pollinate</span>
+</div>
+</body>
+</html>

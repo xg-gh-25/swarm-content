@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Direction: D5 Morandi (莫兰迪) — 柔和叙事 -->
+<style>
+:root {
+  --bg-deep: #F2EDE8;
+  --bg-elevated: #FFFFFF;
+  --bg-surface: rgba(180,160,140,0.05);
+  --border: rgba(180,160,140,0.12);
+  --accent: #B08D6B;
+  --accent-dim: rgba(176,141,107,0.10);
+  --accent-secondary: #7B9E89;
+  --text-primary: #3D3530;
+  --text-secondary: rgba(61,53,48,0.65);
+  --text-muted: rgba(61,53,48,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1080px;
+  background: var(--bg-deep);
+  font-family: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+.section {
+  padding: 96px 80px;
+  text-align: center;
+}
+
+.headline {
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.3;
+  max-width: 800px;
+  margin: 0 auto;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 2.0;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  font-family: "Inter", "SF Mono", monospace;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border-radius: 32px;
+  padding: 72px 60px;
+  box-shadow: 0 24px 60px -20px rgba(61,53,48,0.08);
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.card-gradient {
+  border-radius: 32px;
+  padding: 72px 60px;
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.morandi-cream { background: linear-gradient(160deg, #E8DDD4, #F5EDE5); }
+.morandi-sage { background: linear-gradient(160deg, #DDE8D4, #EDF5E5); }
+.morandi-blue { background: linear-gradient(160deg, #D4DDE8, #E5EDF5); }
+.morandi-rose { background: linear-gradient(160deg, #E8D4DD, #F5E5ED); }
+.morandi-sand { background: linear-gradient(160deg, #E8E4D4, #F5F1E5); }
+.morandi-mint { background: linear-gradient(160deg, #D4E8E4, #E5F5F1); }
+
+.pill {
+  display: inline-block;
+  background: var(--accent-dim);
+  color: var(--accent);
+  padding: 8px 24px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 6px 8px 6px 0;
+}
+
+.pill-green {
+  background: rgba(123,158,137,0.12);
+  color: var(--accent-secondary);
+}
+
+.divider {
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider::after {
+  content: '';
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--bg-deep), transparent);
+}
+
+.quote {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+.quote-attr {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-top: 24px;
+  text-align: center;
+}
+
+.principle-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.principle-num {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 48px;
+  font-family: "Manrope", "Inter", sans-serif;
+}
+
+.principle-text h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.principle-text p {
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.arch-section {
+  background: var(--bg-elevated);
+  border-radius: 32px;
+  padding: 72px 48px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.arch-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 48px;
+  color: var(--text-primary);
+}
+
+.arch-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.arch-layer {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 36px;
+  width: 100%;
+  max-width: 820px;
+  text-align: center;
+}
+
+.arch-layer-accent {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+}
+
+.arch-layer h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.arch-layer p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.arch-arrow {
+  font-size: 24px;
+  color: var(--accent);
+}
+
+.footer-section {
+  padding: 120px 80px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--bg-deep) 0%, #EBE6E0 100%);
+}
+
+.brand-mark {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.brand-name {
+  font-size: 40px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.brand-tagline {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 48px;
+  font-family: "Manrope", "Inter", sans-serif;
+}
+
+.github-link {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-top: 24px;
+  font-family: "SF Mono", "JetBrains Mono", monospace;
+  letter-spacing: 0.5px;
+}
+
+.qr-placeholder {
+  width: 120px;
+  height: 120px;
+  background: var(--bg-elevated);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  margin: 24px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Watermark */
+.watermark {
+  position: fixed;
+  bottom: 24px;
+  right: 36px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  font-family: "Manrope", "Inter", sans-serif;
+  letter-spacing: 0.5px;
+  opacity: 0.6;
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: Cover -->
+<section class="section" style="padding-top: 180px; padding-bottom: 120px;">
+  <div class="eyebrow">POLLINATE — CONTENT ENGINE</div>
+  <h1 class="headline">内容平权</h1>
+  <p style="font-size: 28px; color: var(--text-secondary); margin-top: 24px; line-height: 1.6; max-width: 700px; margin-left: auto; margin-right: auto;">
+    一个人也能做出团队级别的内容<br>
+    不是因为能力强，是因为系统对
+  </p>
+  <div style="margin-top: 72px;">
+    <span class="pill">设计哲学</span>
+    <span class="pill pill-green">方法论</span>
+    <span class="pill">架构</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAGE 2: 核心观点 -->
+<section class="section">
+  <div class="quote">
+    "好内容不是写出来的，<br>是约束出来的。"
+  </div>
+  <p class="quote-attr">— Pollinate Design Philosophy</p>
+  <p class="subtitle" style="margin-top: 72px;">
+    大多数 AI 内容工具给你更多选择。<br>
+    Pollinate 给你更少选择 — 但每个选择都是对的。
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAGE 3: 什么是内容平权 -->
+<section class="section">
+  <div class="card-gradient morandi-cream">
+    <div class="eyebrow" style="text-align: left;">THE PROBLEM</div>
+    <h2 style="font-size: 36px; font-weight: 600; line-height: 1.4; margin-bottom: 24px;">
+      为什么个人创作者的内容<br>总是看起来"差一点"？
+    </h2>
+    <p class="subtitle" style="text-align: left; margin: 0;">
+      不是因为想法不好。是因为没有设计系统、没有品牌一致性、没有质量门禁。企业有设计团队帮你把关，个人创作者只有自己的直觉。
+    </p>
+    <p class="subtitle" style="text-align: left; margin: 0; margin-top: 24px;">
+      <strong style="color: var(--text-primary);">内容平权 = 一个人的输出，团队的品质。</strong>
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAGE 4: Design Principles -->
+<section class="section">
+  <div class="eyebrow">DESIGN PRINCIPLES</div>
+  <h2 class="headline" style="margin-bottom: 72px;">五个设计原则</h2>
+
+  <div class="card" style="text-align: left;">
+    <div class="principle-item">
+      <span class="principle-num">01</span>
+      <div class="principle-text">
+        <h3>约束即品味</h3>
+        <p>告诉 AI 什么不能做，比告诉它什么能做更有效。32 条视觉禁令 + 13 条结构禁令 = 平庸不可能通过。</p>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <span class="principle-num">02</span>
+      <div class="principle-text">
+        <h3>命名方向，不是自由发挥</h3>
+        <p>5 个命名设计方向，每个有完整的色彩、排版、情绪定义。AI 在约束内创作，不在空白上自由发挥。</p>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <span class="principle-num">03</span>
+      <div class="principle-text">
+        <h3>语义 Token，不是硬编码值</h3>
+        <p>用 purpose 命名颜色，不用 appearance。切换方向 = 换一组 Token，零成本。</p>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <span class="principle-num">04</span>
+      <div class="principle-text">
+        <h3>一份内容，多格式输出</h3>
+        <p>同一个 message → 小红书卡片 / OG 预览 / Story / 长图。内容和呈现分离。</p>
+      </div>
+    </div>
+
+    <div class="principle-item" style="margin-bottom: 0;">
+      <span class="principle-num">05</span>
+      <div class="principle-text">
+        <h3>中文优先，双语默认</h3>
+        <p>标点压缩、CJK-Latin 间距、两端对齐 — 中文排版是第一公民，不是英文系统的翻译。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAGE 5: Method -->
+<section class="section">
+  <div class="eyebrow">METHODOLOGY</div>
+  <h2 class="headline" style="margin-bottom: 72px;">一句话到成品的方法论</h2>
+
+  <div style="display: flex; flex-direction: column; gap: 24px; max-width: 820px; margin: 0 auto;">
+    <div class="card-gradient morandi-sage" style="padding: 48px;">
+      <h3 style="font-size: 22px; font-weight: 600; margin-bottom: 12px;">输入：一个 Message</h3>
+      <p style="font-size: 18px; color: var(--text-secondary); line-height: 1.8;">"关于 AI 时代个人创作者如何建立品牌一致性"</p>
+    </div>
+
+    <div style="text-align: center; font-size: 24px; color: var(--accent);">↓</div>
+
+    <div class="card-gradient morandi-blue" style="padding: 48px;">
+      <h3 style="font-size: 22px; font-weight: 600; margin-bottom: 12px;">系统：5 层质量门禁</h3>
+      <p style="font-size: 18px; color: var(--text-secondary); line-height: 1.8;">
+        内容原则 → 方向选择 → Anti-Slop 检查 → 平台适配 → 品牌一致性验证
+      </p>
+    </div>
+
+    <div style="text-align: center; font-size: 24px; color: var(--accent);">↓</div>
+
+    <div class="card-gradient morandi-rose" style="padding: 48px;">
+      <h3 style="font-size: 22px; font-weight: 600; margin-bottom: 12px;">输出：多格式成品</h3>
+      <p style="font-size: 18px; color: var(--text-secondary); line-height: 1.8;">
+        海报 (小红书 3:4) · 长图 (微信) · 视频脚本 · 品牌一致 · 可直接发布
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAGE 6: Architecture -->
+<section class="section">
+  <div class="eyebrow">ARCHITECTURE</div>
+  <h2 class="headline" style="margin-bottom: 48px;">Pollinate 架构</h2>
+  <p class="subtitle" style="margin-bottom: 72px;">
+    一个知识层，多个输出引擎。<br>领域知识从工作中自己生长，不靠人维护。
+  </p>
+
+  <div class="arch-section">
+    <div class="arch-flow">
+      <div class="arch-layer" style="background: linear-gradient(160deg, #E8DDD4, #F5EDE5);">
+        <h4>📝 Input Layer</h4>
+        <p>一句话 / 一段文字 / 一个 URL / 一个想法</p>
+      </div>
+
+      <div class="arch-arrow">↓</div>
+
+      <div class="arch-layer-accent arch-layer">
+        <h4>🧠 DDD Knowledge Layer</h4>
+        <p>PRODUCT.md · TECH.md · IMPROVEMENT.md · THESIS.md<br>
+        <span style="font-size: 13px; color: var(--accent);">领域知识 × 品牌原则 × 历史教训 = 每一次输出比上一次更好</span></p>
+      </div>
+
+      <div class="arch-arrow">↓</div>
+
+      <div class="arch-layer">
+        <h4>🎨 Design Intelligence</h4>
+        <p>5 方向 × 11 Token × Anti-Slop Gate × Platform-Adaptive</p>
+      </div>
+
+      <div class="arch-arrow">↓</div>
+
+      <div style="display: flex; gap: 16px; width: 100%; max-width: 820px;">
+        <div class="arch-layer" style="flex: 1; background: linear-gradient(160deg, #DDE8D4, #EDF5E5);">
+          <h4 style="font-size: 15px;">🖼 海报</h4>
+          <p style="font-size: 13px;">HTML → Playwright → PNG</p>
+        </div>
+        <div class="arch-layer" style="flex: 1; background: linear-gradient(160deg, #D4DDE8, #E5EDF5);">
+          <h4 style="font-size: 15px;">🎬 视频</h4>
+          <p style="font-size: 13px;">Script → TTS → Remotion → 4K</p>
+        </div>
+        <div class="arch-layer" style="flex: 1; background: linear-gradient(160deg, #E8D4DD, #F5E5ED);">
+          <h4 style="font-size: 15px;">📖 叙事</h4>
+          <p style="font-size: 13px;">Outline → Prose → Multi-format</p>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↓</div>
+
+      <div class="arch-layer" style="background: linear-gradient(160deg, #E8E4D4, #F5F1E5);">
+        <h4>📱 Multi-Platform Output</h4>
+        <p>小红书 · 微信 · Twitter · B站 · YouTube — 同一内容，平台适配</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAGE 7: Footer / CTA -->
+<section class="footer-section">
+  <div class="brand-mark">🐝</div>
+  <div class="brand-name">SwarmAI</div>
+  <div class="brand-tagline">Human directs. AI delivers.</div>
+
+  <p style="font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 48px; line-height: 1.8;">
+    一个人 + AI，做团队的事。<br>
+    不是更快地做，是结构性地做对。
+  </p>
+
+  <img src="/Users/gawan/Desktop/SwarmAI-Workspace/swarmai/backend/skills/s_pollinate/brand/assets/logo/qr-github-dark-on-light.png"
+       width="120" height="120"
+       style="border-radius: 16px; margin: 24px auto; display: block;" />
+
+  <p class="github-link">github.com/xg-gh-25/SwarmAI</p>
+
+  <p style="font-size: 14px; color: var(--text-muted); margin-top: 48px;">
+    Pollinate — Your message, their attention, the right format.
+  </p>
+</section>
+
+<!-- Watermark -->
+<div style="padding: 24px 36px; text-align: right;">
+  <span style="font-size: 13px; font-weight: 500; color: var(--text-muted); font-family: 'Manrope', 'Inter', sans-serif; letter-spacing: 0.5px; opacity: 0.6;">
+    🐝 Made with SwarmAI Pollinate
+  </span>
+</div>
+
+</body>
+</html>

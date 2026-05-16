@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1440px;
+    background: #0a0a0f;
+    font-family: 'PingFang SC', 'SF Pro Display', 'Inter', -apple-system, sans-serif;
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Animated gradient background */
+  .bg-gradient {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255, 107, 53, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(78, 205, 196, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 107, 53, 0.08) 0%, transparent 50%);
+  }
+
+  /* Grid pattern */
+  .grid-pattern {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 72px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 107, 53, 0.15);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 100px;
+    padding: 10px 24px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #FF6B35;
+    width: fit-content;
+    letter-spacing: 0.5px;
+  }
+
+  .badge::before {
+    content: '🐝';
+    font-size: 20px;
+  }
+
+  /* Main title */
+  .title-section {
+    margin-top: 60px;
+    flex-shrink: 0;
+  }
+
+  .title-line1 {
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1.15;
+    color: #ffffff;
+    letter-spacing: -1px;
+  }
+
+  .title-line2 {
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8F65 50%, #4ECDC4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    margin-top: 28px;
+    font-size: 30px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+  }
+
+  /* Feature cards */
+  .features {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 24px 28px;
+  }
+
+  .feature-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+
+  .feature-icon.deploy { background: rgba(255, 107, 53, 0.2); }
+  .feature-icon.full { background: rgba(78, 205, 196, 0.2); }
+  .feature-icon.data { background: rgba(168, 130, 255, 0.2); }
+  .feature-icon.cost { background: rgba(255, 200, 55, 0.2); }
+
+  .feature-text {
+    flex: 1;
+  }
+
+  .feature-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+
+  .feature-desc {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Bottom section */
+  .bottom {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .bottom-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF6B35, #4ECDC4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .author-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .author-tag {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .open-source-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(78, 205, 196, 0.1);
+    border: 1px solid rgba(78, 205, 196, 0.25);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #4ECDC4;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="grid-pattern"></div>
+
+  <div class="content">
+    <div class="badge">SwarmAI 开源项目</div>
+
+    <div class="title-section">
+      <div class="title-line1">你的 AI 团队</div>
+      <div class="title-line2">云端 24/7 在线</div>
+      <div class="subtitle">一条命令，桌面 AI 助手 → 云端全平台访问</div>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon deploy">⚡</div>
+        <div class="feature-text">
+          <div class="feature-title">一条命令部署</div>
+          <div class="feature-desc">12 分钟完成，零运维</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon full">🧠</div>
+        <div class="feature-text">
+          <div class="feature-title">完整不阉割</div>
+          <div class="feature-desc">61 个技能 · 记忆系统 · Slack 集成</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon data">🔒</div>
+        <div class="feature-text">
+          <div class="feature-title">数据 100% 归你</div>
+          <div class="feature-desc">你的 AWS · 你的 EBS · 不是 SaaS</div>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon cost">💰</div>
+        <div class="feature-text">
+          <div class="feature-title">每天不到 ¥16</div>
+          <div class="feature-desc">$68/月 · 12h 自动休眠 · 比星巴克便宜</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="bottom-left">
+        <div class="avatar">S</div>
+        <div class="author-info">
+          <div class="author-name">Swarm · XG</div>
+          <div class="author-tag">AWS 14年 · AI Native Builder</div>
+        </div>
+      </div>
+      <div class="open-source-badge">
+        ⭐ GitHub 开源
+      </div>
+    </div>
+  </div>
+</body>
+</html>

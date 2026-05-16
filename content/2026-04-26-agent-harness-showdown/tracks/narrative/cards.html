@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    background: #111;
+  }
+
+  .card {
+    width: 1080px;
+    height: 1440px;
+    background: #0a0a0f;
+    color: #e8e8ed;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 56px 60px;
+    page-break-after: always;
+  }
+
+  /* Subtle grid */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .card-inner { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+
+  /* Page indicator */
+  .page-num {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    z-index: 2;
+  }
+
+  .watermark {
+    position: absolute;
+    bottom: 20px;
+    right: 28px;
+    font-size: 12px;
+    color: #1f2937;
+    font-weight: 500;
+    z-index: 2;
+  }
+
+  /* Typography */
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .section-badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #a5b4fc;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    font-size: 26px;
+    font-weight: 500;
+    color: #f87171;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+  }
+
+  p {
+    font-size: 22px;
+    line-height: 1.65;
+    color: #d1d5db;
+    margin-bottom: 16px;
+  }
+
+  .lead {
+    font-size: 26px;
+    line-height: 1.6;
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  .highlight { color: #a5b4fc; font-weight: 700; }
+  .red { color: #f87171; font-weight: 700; }
+  .green { color: #4ade80; font-weight: 700; }
+  .yellow { color: #fbbf24; font-weight: 700; }
+
+  /* Layer rows */
+  .layer-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .layer-row {
+    display: flex;
+    align-items: flex-start;
+    border-radius: 16px;
+    padding: 20px 24px;
+    gap: 20px;
+  }
+
+  .layer-row.l3 { background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25); }
+  .layer-row.l2 { background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); }
+  .layer-row.l1 { background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.2); }
+
+  .layer-label {
+    font-size: 16px;
+    font-weight: 800;
+    min-width: 115px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .l3 .layer-label { color: #818cf8; }
+  .l2 .layer-label { color: #4ade80; }
+  .l1 .layer-label { color: #fbbf24; }
+
+  .layer-desc {
+    font-size: 19px;
+    color: #d1d5db;
+    line-height: 1.5;
+  }
+
+  .layer-desc .name { color: #fff; font-weight: 700; }
+
+  /* Player cards */
+  .player-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+
+  .player-card .player-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .player-tier {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  .player-tier.l3-t { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+  .player-tier.l2-t { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+  .player-tier.l1-t { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+
+  .player-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .player-tagline {
+    font-size: 17px;
+    color: #94a3b8;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
+  .player-body {
+    font-size: 19px;
+    color: #d1d5db;
+    line-height: 1.55;
+  }
+
+  .player-body .killer { color: #a5b4fc; font-weight: 600; }
+
+  /* Matrix table */
+  .matrix {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 16px;
+    margin: 16px 0;
+  }
+
+  .matrix th {
+    background: rgba(99, 102, 241, 0.1);
+    color: #a5b4fc;
+    font-weight: 700;
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 2px solid rgba(99, 102, 241, 0.2);
+    font-size: 14px;
+  }
+
+  .matrix th:first-child { text-align: left; padding-left: 16px; border-radius: 10px 0 0 0; }
+  .matrix th:last-child { border-radius: 0 10px 0 0; }
+
+  .matrix td {
+    padding: 11px 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: #d1d5db;
+    font-weight: 500;
+  }
+
+  .matrix td:first-child {
+    text-align: left;
+    padding-left: 16px;
+    color: #e2e8f0;
+    font-weight: 600;
+  }
+
+  .matrix tr:nth-child(even) td { background: rgba(255, 255, 255, 0.015); }
+  .matrix tr.mem-row td { background: rgba(248, 113, 113, 0.06); }
+
+  .g { color: #4ade80; }
+  .y { color: #fbbf24; }
+  .r { color: #f87171; }
+  .gg { color: #34d399; font-weight: 700; }
+
+  /* Memory comparison */
+  .mem-list {
+    list-style: none;
+    margin: 16px 0;
+  }
+
+  .mem-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    font-size: 21px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .mem-list li:last-child { border-bottom: none; }
+
+  .lock { font-size: 24px; }
+
+  /* Quote */
+  .quote-block {
+    border-left: 4px solid rgba(99, 102, 241, 0.4);
+    padding: 20px 28px;
+    margin: 20px 0;
+    background: rgba(99, 102, 241, 0.04);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .quote-text {
+    font-size: 22px;
+    font-style: italic;
+    color: #c7d2fe;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .quote-author {
+    font-size: 16px;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  /* CTA */
+  .cta-big {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.35;
+    text-align: center;
+    background: linear-gradient(135deg, #f87171, #fb923c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cta-sub {
+    font-size: 22px;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+
+  /* Spacer helper */
+  .spacer { flex: 1; }
+  .center-v { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+    margin: 24px 0;
+  }
+
+  /* Glow effects per card */
+  .glow-tr::after {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .glow-bl::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(248, 113, 113, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Flow arrow */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 18px;
+    color: #94a3b8;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .flow .arr { color: #6366f1; font-weight: 700; font-size: 20px; }
+  .flow .node { color: #e2e8f0; font-weight: 600; }
+
+  /* Tags */
+  .tags {
+    font-size: 16px;
+    color: #4b5563;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ CARD 1: COVER ═══════════ -->
+<div class="card glow-tr" id="card1">
+  <div class="page-num">1 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="badge">DEEP DIVE · 2026</div>
+    <div class="spacer"></div>
+    <h1>Agent Harness<br>五大玩家<br>深度对比</h1>
+    <div class="subtitle">99% 的人在比错东西</div>
+    <div class="divider"></div>
+    <p class="lead">我花了两个月深度研究了五个最有代表性的 Agent 平台/框架/产品，读了源码、跑了 benchmark、翻了论文。</p>
+    <p class="lead">结论只有一句话：<span class="red">真正的战场不是功能，是记忆。</span></p>
+    <div class="spacer"></div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 2: 三层分类 ═══════════ -->
+<div class="card glow-tr" id="card2">
+  <div class="page-num">2 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="section-badge">第一章 · 认知校准</div>
+    <h2>先搞清楚：<br>你看的是哪一层？</h2>
+    <p>市场上叫 "Agent" 的东西分属<span class="highlight">三个完全不同的层级</span>，大部分对比文章把它们混在一起比——这是最大的误导。</p>
+    <div class="layer-block">
+      <div class="layer-row l3">
+        <div class="layer-label">L3 平台层</div>
+        <div class="layer-desc">你定义 agent，我管 infra + runtime + memory + observability<br><span class="name">AgentCore</span> · <span class="name">Claude Managed Agents</span></div>
+      </div>
+      <div class="layer-row l2">
+        <div class="layer-label">L2 框架层</div>
+        <div class="layer-desc">你管 infra，我给编排 + memory + tool 抽象<br><span class="name">Hermes</span> · LangGraph · CrewAI · DeerFlow 2.0</div>
+      </div>
+      <div class="layer-row l1">
+        <div class="layer-label">L1 产品层</div>
+        <div class="layer-desc">开箱即用，终端用户直接交互<br><span class="name">Claude Code</span> · <span class="name">OpenClaw</span> · <span class="name">SwarmAI</span> · Operator</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size: 24px; font-weight: 700; color: #a5b4fc; text-align: center;">同层竞争是内卷，跨层是降维打击。<br>L3 的客户是 L2 和 L1。</p>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 3: L3 速评 ═══════════ -->
+<div class="card glow-tr" id="card3">
+  <div class="page-num">3 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="section-badge">第二章 · 五家速评 (上)</div>
+    <h2>L3 平台层：<br>基础设施的战争</h2>
+    <div class="player-card">
+      <div class="player-header">
+        <span class="player-tier l3-t">L3</span>
+        <span class="player-name">AgentCore (AWS)</span>
+      </div>
+      <div class="player-tagline">"Any model, any framework, your VPC."</div>
+      <div class="player-body">
+        最开放的平台层。microVM 隔离，支持 Bedrock + OpenAI + Gemini 多模型。<br><br>
+        <span class="killer">杀手锏：</span>企业级安全 — VPC 部署 + X-Ray 审计 + Cedar 策略引擎<br><br>
+        <span class="r">⚠️ Memory API 无法导出</span>
+      </div>
+    </div>
+    <div class="player-card">
+      <div class="player-header">
+        <span class="player-tier l3-t">L3</span>
+        <span class="player-name">Claude Managed Agents (Anthropic)</span>
+      </div>
+      <div class="player-tagline">"Best Claude experience, zero ops."</div>
+      <div class="player-body">
+        最流畅的开发体验，但只能用 Claude。Notion 和 Rakuten 已在用。<br><br>
+        <span class="killer">杀手锏：</span>开发者体验 — 一周内上线，zero ops<br><br>
+        <span class="r">⚠️ Append-only session log，无法导出</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 4: L2+L1 速评 ═══════════ -->
+<div class="card glow-tr" id="card4">
+  <div class="page-num">4 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="section-badge">第二章 · 五家速评 (下)</div>
+    <h2>L2 框架 + L1 产品：<br>应用层的差异化</h2>
+    <div class="player-card">
+      <div class="player-header">
+        <span class="player-tier l2-t">L2</span>
+        <span class="player-name">Hermes (MIT)</span>
+      </div>
+      <div class="player-tagline">唯一有学术验证的自进化框架</div>
+      <div class="player-body">
+        GEPA 算法发了 <span class="killer">ICLR 2026 oral</span>，用遗传算法在 Pareto front 上优化 prompt。17 个 channel，agentskills.io 生态。<br>
+        <span class="g">✅ Memory 本地，可迁移（但 2.2K 上限）</span>
+      </div>
+    </div>
+    <div class="player-card">
+      <div class="player-header">
+        <span class="player-tier l1-t">L1</span>
+        <span class="player-name">OpenClaw</span>
+      </div>
+      <div class="player-tagline">社区驱动的通用 Agent</div>
+      <div class="player-body">
+        MCP 生态 + 54 denied-command 安全模式。优势在社区活跃度和政策推动。<br>
+        <span class="g">✅ Memory 本地 vector，可迁移</span>
+      </div>
+    </div>
+    <div class="player-card">
+      <div class="player-header">
+        <span class="player-tier l1-t">L1</span>
+        <span class="player-name">SwarmAI</span>
+      </div>
+      <div class="player-tagline">个人 AI Command Center</div>
+      <div class="player-body">
+        11 文件 context engineering + 61 skills + memory sovereignty。<br>设计哲学：<span class="killer">记忆属于用户，不属于平台。</span><br>
+        <span class="g">✅ Memory 本地 git，完全可迁移</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 5: 对标矩阵 ═══════════ -->
+<div class="card glow-tr" id="card5">
+  <div class="page-num">5 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="section-badge">第三章 · 六维对标</div>
+    <h2>功能对比？<br>表格给你，但不是重点</h2>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th style="width:15%">维度</th>
+          <th style="width:17%">AgentCore</th>
+          <th style="width:17%">Claude M.</th>
+          <th style="width:17%">Hermes</th>
+          <th style="width:17%">OpenClaw</th>
+          <th style="width:17%">SwarmAI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>自进化</td>
+          <td class="r">—</td>
+          <td class="r">—</td>
+          <td class="gg">GEPA (ICLR)</td>
+          <td class="r">—</td>
+          <td class="g">4-phase</td>
+        </tr>
+        <tr class="mem-row">
+          <td>Memory 所有权</td>
+          <td class="r">🔒 云端锁定</td>
+          <td class="r">🔒 云端锁定</td>
+          <td class="y">本地 2.2K</td>
+          <td class="g">本地 vec</td>
+          <td class="gg">本地 git</td>
+        </tr>
+        <tr>
+          <td>Context 管理</td>
+          <td class="y">基础</td>
+          <td class="y">基础</td>
+          <td class="y">2 文件</td>
+          <td class="y">配置</td>
+          <td class="gg">11 文件</td>
+        </tr>
+        <tr>
+          <td>Skills 生态</td>
+          <td class="y">N/A</td>
+          <td class="y">N/A</td>
+          <td class="gg">Marketplace</td>
+          <td class="g">54+</td>
+          <td class="g">61</td>
+        </tr>
+        <tr>
+          <td>多平台</td>
+          <td class="g">API</td>
+          <td class="g">API</td>
+          <td class="gg">17 ch</td>
+          <td class="y">Desktop</td>
+          <td class="y">D+Slack</td>
+        </tr>
+        <tr>
+          <td>企业安全</td>
+          <td class="gg">VPC+X-Ray</td>
+          <td class="g">Sandbox</td>
+          <td class="g">6 后端隔离</td>
+          <td class="g">OS sandbox</td>
+          <td class="g">3-tier</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="divider"></div>
+    <p style="font-size: 26px; font-weight: 700; color: #f87171; text-align: center;">好了，表格看完了。<br>现在说重点 👇</p>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 6: MEMORY 真相 ═══════════ -->
+<div class="card glow-bl" id="card6">
+  <div class="page-num">6 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="section-badge" style="background: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.25); color: #f87171;">🚨 核心观点</div>
+    <h2>真正的战场：<br>你的记忆存在哪？</h2>
+    <p><span class="highlight">记忆是 Agent 唯一不可替代的资产。</span></p>
+    <p>模型可以换（改个 endpoint），工具可以换（MCP 是标准协议），编排可以换（都是 prompt loop）。但记忆——工作习惯、项目上下文、个人偏好、历史决策——是<span class="red">时间的结晶，不可重建。</span></p>
+    <div class="divider"></div>
+    <ul class="mem-list">
+      <li><span class="lock">🔒</span> <span class="r">AgentCore — 无法导出</span></li>
+      <li><span class="lock">🔒</span> <span class="r">Claude Managed — 无法导出</span></li>
+      <li><span class="lock">🔓</span> <span class="y">Hermes — 本地，但 2.2K chars 上限</span></li>
+      <li><span class="lock">🔓</span> <span class="g">OpenClaw — 本地 vector，可迁移</span></li>
+      <li><span class="lock">🔓</span> <span class="gg">SwarmAI — 本地 git，完全可迁移</span></li>
+    </ul>
+    <div class="divider"></div>
+    <p style="font-size: 20px; color: #94a3b8;">AgentCore Memory API <span class="red">故意不提供 export</span>。这不是技术限制，是战略选择。</p>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 7: 行业共识 ═══════════ -->
+<div class="card glow-tr" id="card7">
+  <div class="page-num">7 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner">
+    <div class="section-badge">行业信号</div>
+    <h2>两大框架创始人<br>同一周说了同一件事</h2>
+    <div class="quote-block">
+      <div class="quote-text">"Harness is plumbing, moat is proprietary data."</div>
+      <div class="quote-text" style="color: #94a3b8; font-size: 18px;">翻译：管道谁都能建，数据才是护城河。</div>
+      <div class="quote-author">— João Moura, CrewAI 创始人 (2026-04-14)</div>
+    </div>
+    <div class="quote-block">
+      <div class="quote-text">邮件助手被意外删除，用同样的模板重建，体验断崖式下降。不是模型变差了，是记忆没了。</div>
+      <div class="quote-author">— Harrison Chase, LangChain 创始人</div>
+    </div>
+    <div class="divider"></div>
+    <p class="lead" style="text-align: center;">两大框架创始人同时说同一件事<br>= <span class="highlight">行业共识正在形成</span></p>
+    <div class="spacer"></div>
+    <div class="flow">
+      <span class="node">时间越长</span><span class="arr">→</span>
+      <span class="node">记忆越深</span><span class="arr">→</span>
+      <span class="node">越离不开</span><span class="arr">→</span>
+      <span class="node">迁移成本越高</span><span class="arr">→</span>
+      <span class="r">lock-in 越强</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CARD 8: CTA ═══════════ -->
+<div class="card glow-bl" id="card8">
+  <div class="page-num">8 / 8</div>
+  <div class="watermark">Swarm Intelligence · 2026</div>
+  <div class="card-inner center-v">
+    <p style="font-size: 22px; color: #64748b; text-align: center; margin-bottom: 40px;">选框架之前，先问自己一个问题 ——</p>
+    <div class="cta-big">
+      "我的 Agent 记忆<br>存在哪里？<br>我能带走吗？"
+    </div>
+    <div class="divider" style="margin: 40px 60px;"></div>
+    <p style="font-size: 24px; color: #d1d5db; text-align: center; line-height: 1.6;">
+      如果答案是 <span class="r">"在云端，不能导出"</span><br>
+      — 你在用别人的记忆。
+    </p>
+    <p style="font-size: 24px; color: #d1d5db; text-align: center; line-height: 1.6; margin-top: 8px;">
+      如果答案是 <span class="green">"在本地，git 管理"</span><br>
+      — 记忆属于你。
+    </p>
+    <div class="divider" style="margin: 40px 60px;"></div>
+    <p style="font-size: 28px; font-weight: 800; color: #a5b4fc; text-align: center;">模型会迭代，框架会洗牌<br>只有记忆是真正的复利。</p>
+    <div class="spacer"></div>
+    <div class="tags">#Agent #AI #AgentCore #Claude #Hermes #OpenClaw #SwarmAI #记忆主权 #AIAgent #深度对比</div>
+  </div>
+</div>
+
+</body>
+</html>
